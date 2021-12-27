@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypt2Library", "Krypt2Library\Krypt2Library.csproj", "{041C5E90-27E1-4A51-9692-F7ED68191D30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypt2LibraryTests", "Krypt2LibraryTests\Krypt2LibraryTests.csproj", "{BD223B03-5618-4E85-9021-B2F545C79A3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{041C5E90-27E1-4A51-9692-F7ED68191D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041C5E90-27E1-4A51-9692-F7ED68191D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041C5E90-27E1-4A51-9692-F7ED68191D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041C5E90-27E1-4A51-9692-F7ED68191D30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD223B03-5618-4E85-9021-B2F545C79A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD223B03-5618-4E85-9021-B2F545C79A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD223B03-5618-4E85-9021-B2F545C79A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD223B03-5618-4E85-9021-B2F545C79A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A86F67E-F8EC-40F8-942D-23DAFA5CFEC8}
+	EndGlobalSection
+EndGlobal
