@@ -8,15 +8,16 @@ namespace Krypt2Library
 {
     public class BetorAlphabetFactory
     {
+        public string Alphabet { get; set; }
+        public string Added { get; set; }
+        public int MessageStartIndex { get; private set; }
+        
         private List<Random> _randoms;
         private readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
-        public string alphabet;
-        public string added;
         private readonly List<char> _alphabetList;
         private readonly string _passphrase;
         private readonly CryptType _cryptType;
 
-        public int MessageStartIndex { get; private set; }
 
         public BetorAlphabetFactory(string passphrase, string message, CryptType cryptType)
         {
@@ -24,16 +25,22 @@ namespace Krypt2Library
             _cryptType = cryptType;
             _randoms = GetRandomsForPassphrase(_passphrase, _cryptType);
 
+            (Alphabet, Added, MessageStartIndex) = ExtendAlphabet(message, cryptType);
+
+            _alphabetList = Alphabet.ToList();
+        }
+
+        private (string alphabet, string added, int messageStartIndex) ExtendAlphabet(string message, CryptType cryptType)
+        {
             switch (cryptType)
             {
                 case CryptType.Encryption:
-                    (alphabet, added, MessageStartIndex) = AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
-                    break;
+                    return AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
                 case CryptType.Decryption:
-                    (alphabet, added, MessageStartIndex) = AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
-                    break;
+                    return  AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
+                default:
+                    throw new Exception("CryptType not recognised");
             }
-            _alphabetList = alphabet.ToList();
         }
 
         internal static List<Random> GetRandomsForPassphrase(string passphrase, CryptType cryptType)
@@ -60,7 +67,12 @@ namespace Krypt2Library
 
             for (int i = 0; i < 32; i += 4)
             {
-                int seed = hashArray[i] + (hashArray[i+1] * 256) + (hashArray[i+2] * 256 * 256) + (hashArray[i+3] * 256 * 256 * 256);
+                int seed = 
+                    hashArray[i] + 
+                    (hashArray[i+1] * 256) + 
+                    (hashArray[i+2] * 256 * 256) + 
+                    (hashArray[i+3] * 256 * 256 * 256);
+
                 output.Add(seed);
             }
 
@@ -106,72 +118,6 @@ namespace Krypt2Library
                     list[k] = list[n];
                     list[n] = value;
                 }
-            }
-        }
-
-        private static int ShiftIndexWrapper(int length, int shiftBy)
-        {
-            if (shiftBy == 0) return 0;
-
-            if (shiftBy > 0)
-            {
-                if (shiftBy < length) return shiftBy;
-
-                while (shiftBy >= length)
-                {
-                    shiftBy -= length;
-                }
-
-                return shiftBy;
-            }
-
-            if (shiftBy > -length) return shiftBy + length;
-
-            while (shiftBy <= -length)
-            {
-                shiftBy += length;
-            }
-
-            return shiftBy + length;
-        }
-
-        public static int[,] GenerateAlphabetMap(string characters)
-        {
-            var output = new int[characters.Length, characters.Length];
-
-            for (int i = 0; i < characters.Length; i++)
-            {
-                for (int j = 0; j < characters.Length; j++)
-                {
-                    output[i, j] = j;
-                }
-
-                ShiftArrayRowRight(output, i, i);
-            }
-
-            return output;
-        }
-
-        public static void ShiftArrayRowRight(int[,] array, int row, int shiftBy)
-        {
-            var length = array.GetLength(1);
-
-            var temp = new int[length];
-            for (int i = 0; i < length; i++)
-            {
-                temp[i] = array[row, i];
-            }
-
-            for (int i = shiftBy; i < length; i++)
-            {
-                array[row, i] = temp[i - shiftBy];
-            }
-
-            int index = 0;
-            for (int i = length - shiftBy; i < length; i++)
-            {
-                array[row, index] = temp[i];
-                index++;
             }
         }
     }
