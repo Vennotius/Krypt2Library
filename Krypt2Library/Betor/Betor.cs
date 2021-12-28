@@ -17,7 +17,7 @@ namespace Krypt2Library
 
             for (int i = 0; i < 8; i++)
             {
-                backgroundWorker.ReportProgress(i + 1);
+                if (backgroundWorker != null) backgroundWorker.ReportProgress(i + 1);
                 message = EncryptMessage(message, passphrase, i);
             }
 
@@ -49,8 +49,9 @@ namespace Krypt2Library
 
             for (int i = 0; i < 8; i++)
             {
-                backgroundWorker.ReportProgress(i + 1);
-                message = DecryptMessage(message, passphrase, i);
+                if (backgroundWorker != null) backgroundWorker.ReportProgress(i + 1);
+                if (i != 7) message = _alphabetFactory.added + DecryptMessage(startIndex, message, passphrase, i); // Don't prepend "added" after the last pass
+                else message = DecryptMessage(startIndex, message, passphrase, i);
             }
 
             _alphabetFactory.Reset();
@@ -60,11 +61,11 @@ namespace Krypt2Library
             return output.ToString();
         }
 
-        private string DecryptMessage(string message, string passphrase, int passIndex)
+        private string DecryptMessage(int startIndex, string message, string passphrase, int passIndex)
         {
             var output = new StringBuilder();
 
-            for (int i = 0; i < message.Length; i++)
+            for (int i = startIndex; i < message.Length; i++)
             {
                 output.Append(DecryptCharacter(message[i], passIndex));
             }
