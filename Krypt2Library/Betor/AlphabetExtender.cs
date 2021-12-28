@@ -20,7 +20,7 @@ namespace Krypt2Library
         private static Dictionary<char, int> AlphabetAsDictionary(string alphabet)
         {
             var output = new Dictionary<char, int>();
-            
+
             foreach (char c in alphabet)
             {
                 output.Add(c, 0);
@@ -30,7 +30,7 @@ namespace Krypt2Library
         }
 
 
-        private static (string outputExtendedAlphabet, string addedCharacters, int messageStartIndex) 
+        private static (string outputExtendedAlphabet, string addedCharacters, int messageStartIndex)
             GenerateExtendedAlphabetForEncryption(Dictionary<char, int> alphabet, string message)
         {
             var extendedAlphabet = PopulateExtendedWithStandardAlphabet(alphabet);
@@ -63,7 +63,7 @@ namespace Krypt2Library
 
             return addedCharacters;
         }
-        
+
         private static StringBuilder PopulateExtendedWithStandardAlphabet(Dictionary<char, int> alphabet)
         {
             var outputExtendedAlphabet = new StringBuilder();
@@ -76,13 +76,13 @@ namespace Krypt2Library
             return outputExtendedAlphabet;
         }
 
-        private static (string outputExtendedAlphabet, string addedCharacters, int messageStartIndex) 
+        private static (string outputExtendedAlphabet, string addedCharacters, int messageStartIndex)
             GenerateExtendedAlphabetForDecryption(Dictionary<char, int> alphabet, string message)
         {
             var extendedAlphabet = PopulateExtendedWithStandardAlphabet(alphabet);
-            
+
             var addedCharacters = new StringBuilder();
-            
+
             int index = AddMissingCharactersForDecryptionAndReturnStartingIndex(alphabet, message, addedCharacters, extendedAlphabet);
 
             return (extendedAlphabet.ToString(), addedCharacters.ToString(), index);

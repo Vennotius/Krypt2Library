@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -11,7 +10,7 @@ namespace Krypt2Library
         public string Alphabet { get; set; }
         public string Added { get; set; }
         public int MessageStartIndex { get; private set; }
-        
+
         private List<Random> _randoms;
         private readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
         private readonly List<char> _alphabetList;
@@ -25,22 +24,9 @@ namespace Krypt2Library
             _cryptType = cryptType;
             _randoms = GetRandomsForPassphrase(_passphrase, _cryptType);
 
-            (Alphabet, Added, MessageStartIndex) = ExtendAlphabet(message, cryptType);
+            (Alphabet, Added, MessageStartIndex) = AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
 
             _alphabetList = Alphabet.ToList();
-        }
-
-        private (string alphabet, string added, int messageStartIndex) ExtendAlphabet(string message, CryptType cryptType)
-        {
-            switch (cryptType)
-            {
-                case CryptType.Encryption:
-                    return AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
-                case CryptType.Decryption:
-                    return  AlphabetExtender.ExtendAlphabetIfNeeded(_standardAlphabet, message, cryptType);
-                default:
-                    throw new Exception("CryptType not recognised");
-            }
         }
 
         internal static List<Random> GetRandomsForPassphrase(string passphrase, CryptType cryptType)
@@ -48,7 +34,7 @@ namespace Krypt2Library
             var output = new List<Random>();
 
             byte[] hashArray = GetHashByteArray(passphrase);
-            
+
             List<int> randomSeeds = GetRandomSeedsFromByteArray(hashArray);
 
             foreach (var seed in randomSeeds)
@@ -57,7 +43,7 @@ namespace Krypt2Library
             }
 
             if (cryptType == CryptType.Decryption) output.Reverse();
-            
+
             return output;
         }
 
@@ -67,11 +53,11 @@ namespace Krypt2Library
 
             for (int i = 0; i < 32; i += 4)
             {
-                int seed = 
-                    hashArray[i] + 
-                    (hashArray[i+1] * 256) + 
-                    (hashArray[i+2] * 256 * 256) + 
-                    (hashArray[i+3] * 256 * 256 * 256);
+                int seed =
+                    hashArray[i] +
+                    (hashArray[i + 1] * 256) +
+                    (hashArray[i + 2] * 256 * 256) +
+                    (hashArray[i + 3] * 256 * 256 * 256);
 
                 output.Add(seed);
             }

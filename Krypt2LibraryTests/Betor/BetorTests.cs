@@ -1,11 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Krypt2Library;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace Krypt2Library.Tests
 {
@@ -41,9 +34,9 @@ namespace Krypt2Library.Tests
 
             var passphrase = "HereWeAlwaysTestBecauseWeDistrustOurGuesses";
 
-            var cipherText = betor.Encrypt(passphrase, message, null); 
+            var cipherText = betor.Encrypt(passphrase, message, null);
 
-            var decryptedText = betor.Decrypt(passphrase, cipherText, null); 
+            var decryptedText = betor.Decrypt(passphrase, cipherText, null);
 
             Assert.AreEqual(message, decryptedText);
         }
