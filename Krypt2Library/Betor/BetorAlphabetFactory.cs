@@ -6,9 +6,9 @@ using System.Text;
 [assembly: InternalsVisibleTo("Krypt2LibraryTests")]
 namespace Krypt2Library
 {
-    public class AlphabetFactory
+    public class BetorAlphabetFactory
     {
-        private Random _random;
+        private List<Random> _randoms;
         private readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
         public string alphabet;
         public string added;
@@ -17,10 +17,10 @@ namespace Krypt2Library
 
         public int MessageStartIndex { get; private set; }
 
-        public AlphabetFactory(string passphrase, string message, CryptType cryptType)
+        public BetorAlphabetFactory(string passphrase, string message, CryptType cryptType)
         {
             _passphrase = passphrase;
-            _random = new Random(GetOneEigthOfSHA256Hash(_passphrase));
+            _randoms = GetRandomsForPassphrase(_passphrase);
 
             switch (cryptType)
             {
@@ -34,61 +34,62 @@ namespace Krypt2Library
             _alphabetList = alphabet.ToList();
         }
 
-        public void Reset()
+        internal static List<Random> GetRandomsForPassphrase(string passphrase)
         {
-            _random = new Random(GetOneEigthOfSHA256Hash(_passphrase));
-        }
+            var output = new List<Random>();
 
-        internal static int GetSoortvanHash(string passphrase)
-        {
-            int output = 1;
+            byte[] hashArray = GetHashByteArray(passphrase);
+            
+            List<int> randomSeeds = GetRandomSeedsFromByteArray(hashArray);
 
-            for (int i = 0; i < passphrase.Length; i++)
+            foreach (var seed in randomSeeds)
             {
-                if (passphrase[i] != 0) output += passphrase[i];
-                if (output % 3 == 0) output *= passphrase[i];
-                if (output % 5 == 0) output /= 3;
-                if (i % 2 == 0) output += 3;
-                if (i % 7 == 0) output += 4;
-                output -= passphrase[i];
-                output *= -passphrase[i];
+                output.Add(new Random(seed));
             }
 
             return output;
         }
 
-        internal static int GetOneEigthOfSHA256Hash(string input)
+        internal static List<int> GetRandomSeedsFromByteArray(byte[] hashArray)
         {
-            int output = 0;
+            var output = new List<int>();
+
+            for (int i = 0; i < 32; i += 4)
+            {
+                int seed = hashArray[i] + (hashArray[i+1] * 256) + (hashArray[i+2] * 256 * 256) + (hashArray[i+3] * 256 * 256 * 256);
+                output.Add(seed);
+            }
+
+            return output;
+        }
+
+        private static byte[] GetHashByteArray(string passphrase)
+        {
+            byte[] hash;
 
             using (SHA256 hashAlgorithm = SHA256.Create())
             {
-                byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                output = AttemptSomeKindOfConversionToInt32(output, data);
+                hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(passphrase));
             }
 
-            return output;
-
+            return hash;
         }
 
-        internal static int AttemptSomeKindOfConversionToInt32(int output, byte[] data)
+        public void Reset()
         {
-            output = data[0] + (data[1] * 256) + (data[2] * 256 * 256) + (data[3] * 256 * 256 * 256);
-
-            return output;
+            throw new NotImplementedException();
         }
 
-        public List<char> GetAlphabetForNextCharacter()
+        public List<char> GetAlphabetForNextCharacter(int randomIndex)
         {
             var output = new List<char>(_alphabetList);
 
-            ShuffleAlphabet<char>(output);
+            ShuffleAlphabet<char>(output, randomIndex);
 
             return output;
         }
 
-        public void ShuffleAlphabet<T>(List<T> list)
+        public void ShuffleAlphabet<T>(List<T> list, int randomIndex)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -96,26 +97,10 @@ namespace Krypt2Library
                 while (n > 1)
                 {
                     n--;
-                    int k = _random.Next(n + 1);
+                    int k = _randoms[randomIndex].Next(n + 1);
                     T value = list[k];
                     list[k] = list[n];
                     list[n] = value;
-                }
-            }
-        }
-
-        public void Shuffle<T>(T[,] array)
-        {
-            for (int i = 0; i < array.GetLength(0); i++)
-            {
-                int n = array.GetLength(0);
-                while (n > 1)
-                {
-                    n--;
-                    int k = _random.Next(n + 1);
-                    T value = array[i, k];
-                    array[i, k] = array[i, n];
-                    array[i, n] = value;
                 }
             }
         }
@@ -166,13 +151,13 @@ namespace Krypt2Library
         public static void ShiftArrayRowRight(int[,] array, int row, int shiftBy)
         {
             var length = array.GetLength(1);
-            
+
             var temp = new int[length];
             for (int i = 0; i < length; i++)
             {
                 temp[i] = array[row, i];
             }
-            
+
             for (int i = shiftBy; i < length; i++)
             {
                 array[row, i] = temp[i - shiftBy];
