@@ -14,13 +14,15 @@ namespace Krypt2Library
         public string added;
         private readonly List<char> _alphabetList;
         private readonly string _passphrase;
+        private readonly CryptType _cryptType;
 
         public int MessageStartIndex { get; private set; }
 
         public BetorAlphabetFactory(string passphrase, string message, CryptType cryptType)
         {
             _passphrase = passphrase;
-            _randoms = GetRandomsForPassphrase(_passphrase);
+            _cryptType = cryptType;
+            _randoms = GetRandomsForPassphrase(_passphrase, _cryptType);
 
             switch (cryptType)
             {
@@ -34,7 +36,7 @@ namespace Krypt2Library
             _alphabetList = alphabet.ToList();
         }
 
-        internal static List<Random> GetRandomsForPassphrase(string passphrase)
+        internal static List<Random> GetRandomsForPassphrase(string passphrase, CryptType cryptType)
         {
             var output = new List<Random>();
 
@@ -47,6 +49,8 @@ namespace Krypt2Library
                 output.Add(new Random(seed));
             }
 
+            if (cryptType == CryptType.Decryption) output.Reverse();
+            
             return output;
         }
 
@@ -77,7 +81,7 @@ namespace Krypt2Library
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            _randoms = GetRandomsForPassphrase(_passphrase, _cryptType);
         }
 
         public List<char> GetAlphabetForNextCharacter(int randomIndex)

@@ -14,7 +14,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void GetRandomsForPassphraseTest()
         {
-            List<Random> randomsList = BetorAlphabetFactory.GetRandomsForPassphrase("test");
+            List<Random> randomsList = BetorAlphabetFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
 
             Assert.AreEqual(8, randomsList.Count);
 
