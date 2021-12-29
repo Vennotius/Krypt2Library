@@ -1,5 +1,5 @@
 # Krypt2Library
-A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from which 8 seeded Random's are generated. Theses, each in its own pass, are used to generate a new alphabet per character.
+A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from which 8 seeded Random's are generated. Theses, each in its own pass, are used to deterministically generate a new alphabet per character.
 
 ## Example 1:  
 
