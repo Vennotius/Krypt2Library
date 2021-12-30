@@ -73,6 +73,7 @@ namespace Krypt2Library
                 message = AlphabetFactory.Added + DecryptOnePass(startIndex, message, i);
             }
 
+            if (backgroundWorker != null) backgroundWorker.ReportProgress(8);
             message = DecryptOnePass(startIndex, message, 7); // Don't prepend "added" after the last pass
 
             output.Append(message);
