@@ -40,5 +40,21 @@ namespace Krypt2Library.Tests
 
             Assert.AreEqual(message, decryptedText);
         }
+
+        [TestMethod()]
+        public void InvalidCipherTextTest()
+        {
+            // ToDo: Let it test for throwing of exception...
+            // Also: Reconsider how IndexOutOfrange is handled. Instead of handling that exception, perhaps check for index of [-1] and handle it ourselves instead of handling an exception.
+            
+            var betor = new Betor();
+
+            var passphrase = "HereWeAlwaysTestBecauseWeDistrustOurGuesses";
+
+            var cipherText = "ghgh~+";
+
+            var decryptedText = betor.Decrypt(passphrase, cipherText, null);
+
+        }
     }
 }

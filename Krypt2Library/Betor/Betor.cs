@@ -19,7 +19,6 @@ namespace Krypt2Library
 
             return output.ToString();
         }
-
         private void EncryptMessage(string message, BackgroundWorker backgroundWorker, StringBuilder output)
         {
             for (int passIndex = 0; passIndex < 8; passIndex++)
@@ -31,7 +30,6 @@ namespace Krypt2Library
 
             AlphabetFactory.Reset();
         }
-
         private string EncryptOnePass(string message, int passIndex, BackgroundWorker backgroundWorker)
         {
             var output = new StringBuilder();
@@ -53,6 +51,77 @@ namespace Krypt2Library
 
             return output.ToString();
         }
+        private char EncryptCharacter(char c, int passIndex)
+        {
+            var index = AlphabetFactory.Alphabet.IndexOf(c);
+            var cipherAlphabet = AlphabetFactory.GetAlphabetForNextCharacter(passIndex);
+
+            return cipherAlphabet[index];
+        }
+
+        public string Decrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
+        {
+            var output = new StringBuilder();
+
+            AlphabetFactory = new BetorAlphabetFactory(passphrase, message, CryptType.Decryption);
+            var startIndex = AlphabetFactory.MessageStartIndex;
+            try
+            {
+                DecryptMessage(message, backgroundWorker, output, startIndex);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new Exception("Invalid Cipher Text");
+            }
+
+            return output.ToString();
+        }
+        private void DecryptMessage(string message, BackgroundWorker backgroundWorker, StringBuilder output, int startIndex)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                message = AlphabetFactory.Added + DecryptOnePass(startIndex, message, i, backgroundWorker);
+            }
+
+            message = DecryptOnePass(startIndex, message, 7, backgroundWorker); // Don't prepend "added" after the last pass
+
+            output.Append(message);
+
+            AlphabetFactory.Reset();
+        }
+        private string DecryptOnePass(int startIndex, string message, int passIndex, BackgroundWorker backgroundWorker)
+        {
+            var output = new StringBuilder();
+
+            var currentCharacterIndex = message.Length * passIndex;
+
+            var totalCharactersToProcess = (double)message.Length * 8;
+            var onePercentOfTotal = totalCharactersToProcess / 100;
+            var currentPercent = (currentCharacterIndex / onePercentOfTotal);
+
+            for (int i = startIndex; i < message.Length; i++)
+            {
+                output.Append(DecryptCharacter(message[i], passIndex));
+                currentCharacterIndex++;
+
+                currentPercent = ReportProgress(backgroundWorker, currentCharacterIndex, totalCharactersToProcess, onePercentOfTotal, currentPercent);
+            }
+
+            return output.ToString();
+        }
+        private char DecryptCharacter(char c, int passIndex)
+        {
+            var index = AlphabetFactory.GetAlphabetForNextCharacter(passIndex).IndexOf(c);
+            var cipherAlphabet = AlphabetFactory.Alphabet;
+
+            return cipherAlphabet[index];
+        }
+
+        private void PrependAdditionalAlphabetCharacters(StringBuilder output)
+        {
+            var added = AlphabetFactory.Added;
+            output.Append($"{added}");
+        }
 
         private static double ReportProgress(BackgroundWorker backgroundWorker, int currentCharacterIndex, double totalCharactersToProcess, double onePercentOfTotal, double currentPercent)
         {
@@ -70,67 +139,5 @@ namespace Krypt2Library
 
             return currentPercent;
         }
-
-        private char EncryptCharacter(char c, int passIndex)
-        {
-            var index = AlphabetFactory.Alphabet.IndexOf(c);
-            var cipherAlphabet = AlphabetFactory.GetAlphabetForNextCharacter(passIndex);
-
-            return cipherAlphabet[index];
-        }
-
-        public string Decrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
-        {
-            var output = new StringBuilder();
-
-            AlphabetFactory = new BetorAlphabetFactory(passphrase, message, CryptType.Decryption);
-            var startIndex = AlphabetFactory.MessageStartIndex;
-            DecryptMessage(message, backgroundWorker, output, startIndex);
-
-            return output.ToString();
-        }
-
-        private void DecryptMessage(string message, BackgroundWorker backgroundWorker, StringBuilder output, int startIndex)
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                if (backgroundWorker != null) backgroundWorker.ReportProgress(i + 1);
-
-                message = AlphabetFactory.Added + DecryptOnePass(startIndex, message, i);
-            }
-
-            if (backgroundWorker != null) backgroundWorker.ReportProgress(8);
-            message = DecryptOnePass(startIndex, message, 7); // Don't prepend "added" after the last pass
-
-            output.Append(message);
-
-            AlphabetFactory.Reset();
-        }
-        private string DecryptOnePass(int startIndex, string message, int passIndex)
-        {
-            var output = new StringBuilder();
-
-            for (int i = startIndex; i < message.Length; i++)
-            {
-                output.Append(DecryptCharacter(message[i], passIndex));
-            }
-
-            return output.ToString();
-        }
-        private char DecryptCharacter(char c, int passIndex)
-        {
-            var index = AlphabetFactory.GetAlphabetForNextCharacter(passIndex).IndexOf(c);
-            var cipherAlphabet = AlphabetFactory.Alphabet;
-
-            return cipherAlphabet[index];
-        }
-
-
-        private void PrependAdditionalAlphabetCharacters(StringBuilder output)
-        {
-            var added = AlphabetFactory.Added;
-            output.Append($"{added}");
-        }
-
     }
 }
