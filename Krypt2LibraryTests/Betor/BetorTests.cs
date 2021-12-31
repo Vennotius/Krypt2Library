@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.ComponentModel;
 
 namespace Krypt2Library.Tests
 {
@@ -49,11 +51,11 @@ namespace Krypt2Library.Tests
             
             var betor = new Betor();
 
-            var passphrase = "HereWeAlwaysTestBecauseWeDistrustOurGuesses";
+            var passphrase = "InvalidCipherTextShouldNotTHrowAnException";
 
             var cipherText = "ghgh~+";
 
-            var decryptedText = betor.Decrypt(passphrase, cipherText, null);
+            Assert.ThrowsException<InvalidCipherException>(() => betor.Decrypt(passphrase, cipherText, null));
 
         }
     }

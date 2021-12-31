@@ -65,13 +65,14 @@ namespace Krypt2Library
 
             AlphabetFactory = new BetorAlphabetFactory(passphrase, message, CryptType.Decryption);
             var startIndex = AlphabetFactory.MessageStartIndex;
+
             try
             {
                 DecryptMessage(message, backgroundWorker, output, startIndex);
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Invalid Cipher Text");
+                throw new InvalidCipherException("Invalid Cipher Text.");
             }
 
             return output.ToString();
