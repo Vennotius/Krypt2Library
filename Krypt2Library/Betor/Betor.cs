@@ -22,28 +22,55 @@ namespace Krypt2Library
 
         private void EncryptMessage(string message, BackgroundWorker backgroundWorker, StringBuilder output)
         {
-            for (int i = 0; i < 8; i++)
+            for (int passIndex = 0; passIndex < 8; passIndex++)
             {
-                if (backgroundWorker != null) backgroundWorker.ReportProgress(i + 1);
-
-                message = EncryptOnePass(message, i);
+                message = EncryptOnePass(message, passIndex, backgroundWorker);
             }
 
             output.Append(message);
 
             AlphabetFactory.Reset();
         }
-        private string EncryptOnePass(string message, int passIndex)
+
+        private string EncryptOnePass(string message, int passIndex, BackgroundWorker backgroundWorker)
         {
             var output = new StringBuilder();
+
+            var currentCharacterIndex = message.Length * passIndex;
+            
+            var totalCharactersToProcess = (double)message.Length * 8;
+            var onePercentOfTotal = totalCharactersToProcess / 100;
+            var currentPercent = (currentCharacterIndex / onePercentOfTotal);
 
             for (int i = 0; i < message.Length; i++)
             {
                 output.Append(EncryptCharacter(message[i], passIndex));
+                
+                currentCharacterIndex++;
+                
+                currentPercent = ReportProgress(backgroundWorker, currentCharacterIndex, totalCharactersToProcess, onePercentOfTotal, currentPercent);
             }
 
             return output.ToString();
         }
+
+        private static double ReportProgress(BackgroundWorker backgroundWorker, int currentCharacterIndex, double totalCharactersToProcess, double onePercentOfTotal, double currentPercent)
+        {
+            if (backgroundWorker == null) return currentPercent;
+            
+            if (currentCharacterIndex == totalCharactersToProcess)
+            {
+                backgroundWorker.ReportProgress(100);
+            }
+            else if (currentCharacterIndex / onePercentOfTotal > currentPercent + 1)
+            {
+                backgroundWorker.ReportProgress(Convert.ToInt32(currentPercent));
+                currentPercent = (currentCharacterIndex / onePercentOfTotal);
+            }
+
+            return currentPercent;
+        }
+
         private char EncryptCharacter(char c, int passIndex)
         {
             var index = AlphabetFactory.Alphabet.IndexOf(c);
@@ -51,7 +78,6 @@ namespace Krypt2Library
 
             return cipherAlphabet[index];
         }
-
 
         public string Decrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
         {
