@@ -27,7 +27,7 @@ namespace Krypt2Library
             _alphabetList = Alphabet.ToList();
         }
 
-        public void Reset()
+        internal void Reset()
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(_passphrase, _cryptType);
         }
@@ -40,7 +40,6 @@ namespace Krypt2Library
 
             return output;
         }
-
         private void ShuffleAlphabet<T>(List<T> list, int randomIndex)
         {
             for (int i = 0; i < list.Count; i++)
@@ -68,7 +67,6 @@ namespace Krypt2Library
 
             return finalIndex;
         }
-
         internal static int ShiftWrapper(int inputIndex, int shiftAmount, int length)
         {
             if (shiftAmount == 0) return inputIndex;
@@ -93,5 +91,6 @@ namespace Krypt2Library
 
             return output;
         }
+
     }
 }

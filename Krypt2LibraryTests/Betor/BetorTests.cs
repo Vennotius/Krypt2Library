@@ -39,7 +39,6 @@ namespace Krypt2Library.Tests
 
         [DataRow("If we encrypt text and then decrypt that cipherText, the decrypted text should exactly match the original text")]
         [DataRow("En effet, je n’ai pas honte de l’Evangile [de Christ]: c’est la puissance de Dieu pour le salut de tout homme qui croit, du Juif d’abord, mais aussi du non-Juif. En effet, c’est l’Evangile qui révèle la justice de Dieu par la foi et pour la foi, comme cela est écrit: Le juste vivra par la foi.")]
-        [DataRow("Welgeluksalig is die man wat nie wandel in die raad van die goddelose en nie staan op die weg van die sondaars en nie sit in die kring van die spotters nie; maar sy behae is in die wet van die HERE, en hy oordink sy wet dag en nag. En hy sal wees soos ’n boom wat geplant is by waterstrome, wat sy vrugte gee op sy tyd en waarvan die blare nie verwelk nie; en alles wat hy doen, voer hy voorspoedig uit. So is die goddelose mense nie, maar soos kaf wat die wind verstrooi. Daarom sal die goddelose nie bestaan in die oordeel en die sondaars in die vergadering van die regverdiges nie. Want die HERE ken die weg van die regverdiges, maar die weg van die goddelose sal vergaan.")]
         [DataRow("Κύριος Ἰησοῦς")]
         [DataRow("   ")]
         [DataRow("")]
