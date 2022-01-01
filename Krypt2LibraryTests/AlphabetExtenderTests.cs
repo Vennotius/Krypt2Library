@@ -36,16 +36,16 @@ namespace Krypt2Library.Tests
         }
 
         [TestMethod()]
-        public void ExtendAlphabetIfNeededForEncryptionTestShouldAddTwoCharacters()
+        public void ExtendAlphabetIfNeededForEncryptionTestShouldAddThreeCharacters()
         {
             var alphabet = _standardAlphabet;
-            var message = "Testing. This should add 'ê' as well as 'ë'";
+            var message = "Testing. This should add '♫' as well as 'ê'. Added 'ë' to the mix as well!";
 
             var (outputExtendedAlphabet, addedCharacters, messageStartIndex)
                 = AlphabetExtender.ExtendAlphabetIfNeeded(alphabet, message, CryptType.Encryption);
 
-            Assert.AreEqual(alphabet + "êë", outputExtendedAlphabet);
-            Assert.AreEqual("êë", addedCharacters);
+            Assert.AreEqual(alphabet + "êë♫", outputExtendedAlphabet);
+            Assert.AreEqual("êë♫", addedCharacters);
             Assert.AreEqual(0, messageStartIndex);
         }
 

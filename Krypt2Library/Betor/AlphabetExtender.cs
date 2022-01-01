@@ -45,23 +45,32 @@ namespace Krypt2Library
         private static StringBuilder AddMissingCharactersForEncryption(Dictionary<char, int> alphabet, string message, StringBuilder extendedAlphabet)
         {
             var addedCharacters = new StringBuilder();
+            List<char> added = ExtractCharactersThatAreNotInStandardAlphabet(alphabet, message);
+
+            foreach (char c in added)
+            {
+                extendedAlphabet.Append(c);
+                addedCharacters.Append(c);
+            }
+
+            return addedCharacters;
+        }
+
+        private static List<char> ExtractCharactersThatAreNotInStandardAlphabet(Dictionary<char, int> alphabet, string message)
+        {
             var added = new List<char>();
 
             foreach (char c in message)
             {
                 if (alphabet.ContainsKey(c) == false && added.Contains(c) == false)
                 {
-                    extendedAlphabet.Append(c);
                     added.Add(c);
                 }
             }
-            // Known vulnerablity: Added is not shuffled.
-            foreach (var c in added)
-            {
-                addedCharacters.Append(c);
-            }
 
-            return addedCharacters;
+            added.Sort();  // For security reasons, in order that nothing might be inferred from the order in which added characters appear at the start of the cipherText.
+            
+            return added;
         }
 
         private static StringBuilder PopulateExtendedWithStandardAlphabet(Dictionary<char, int> alphabet)

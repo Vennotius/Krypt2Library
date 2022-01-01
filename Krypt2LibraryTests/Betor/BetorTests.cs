@@ -8,7 +8,7 @@ namespace Krypt2Library.Tests
     public class BetorTests
     {
         [DataRow("Output of Encrypt(♫♪) should not change if the code changes, because that will break backwards compatibility.",
-            "♫♪%Su3:d1*oe#2bZuDKJyy *Z;8@♫aj♪Yr@\"?WGi:,8DW!uWer$Qe*2X1DFBiS:Qi.♫O8%;I5 .T 'cr$e$3%d)UR*u2O\" 8;7J3R3K:a$+%emw")]
+            "♪♫%Su3:d1*oe#2bZuDKJ!$ *Z;8@♪aj♫Yr@\"?WGi:,8DW!uWer$Qe*2X1DFBiS:Qi.♪O8%;I5 .T 'cr$e$3%d)UR*u2O\" 8;7J3R3K:a$+%emw")]
         [DataRow("Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father.",
             "JFR.juIpyMywZmmt#ypg(YkDA:!OFMdAMH%8?j?n \"aDyOb4Y+9q qfGc*(pg@JeIdP6sN5eg!t;ZZdfG:vrN5pnha$QL%0pJ:I$tHt4QoM(YG@.%-08yq*A0(q3O,rNy17@(NcavWUzCD5l;e8#b;Jz6(&4bD%+7,C#1qWzjFSO5*hq@e#**'*7mSG;0@hv.*6-dxRa8!lvDfCb%E!jOKty-yrr.GyVs;NwviiO-6%0g,-1KrmL0pHM@HZgwz(Mue!;l#RoZxg8gB'")]
         [TestMethod()]
@@ -29,6 +29,7 @@ namespace Krypt2Library.Tests
         [DataRow("   ")]
         [DataRow("")]
         [DataRow("♪")]
+        [DataRow("[1] PAULUS, ’n gevangene van Christus Jesus, en die broeder Timótheüs, aan Filémon, die geliefde en ons mede-arbeider, [2] en aan Áppia, die geliefde suster, en aan Archíppus, ons medestryder, en aan die gemeente wat in jou huis is: [3] Genade vir julle en vrede van God onse Vader en die Here Jesus Christus!")]
         [TestMethod()]
         public void EncryptDecryptTest(string message)
         {
