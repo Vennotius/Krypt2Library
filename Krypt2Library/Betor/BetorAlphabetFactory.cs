@@ -39,7 +39,7 @@ namespace Krypt2Library
 
             foreach (var seed in randomSeeds)
             {
-                output.Add(new Random(seed));
+                output.Add(new OurRandom(seed));
             }
 
             if (cryptType == CryptType.Decryption) output.Reverse();
