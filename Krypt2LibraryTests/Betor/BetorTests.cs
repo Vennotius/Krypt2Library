@@ -14,7 +14,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void EncryptTestForConsistentOutput(string message, string expectedCipherText)
         {
-            var betor = new Betor();
+            var betor = new Betor(Betor.EncryptCharacterUsingShuffledAlphabet, Betor.DecryptCharacterUsingShuffledAlphabet);
             var passphrase = "HereWeTest";
 
             var cipherText = betor.Encrypt(passphrase, message, null);
@@ -33,7 +33,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void EncryptDecryptTest(string message)
         {
-            var betor = new Betor();
+            var betor = new Betor(Betor.EncryptCharacterUsingShuffledAlphabet, Betor.DecryptCharacterUsingShuffledAlphabet);
 
             var passphrase = "HereWeAlwaysTestBecauseWeDistrustOurGuesses";
 
@@ -50,7 +50,7 @@ namespace Krypt2Library.Tests
             // ToDo: Let it test for throwing of exception...
             // Also: Reconsider how IndexOutOfrange is handled. Instead of handling that exception, perhaps check for index of [-1] and handle it ourselves instead of handling an exception.
             
-            var betor = new Betor();
+            var betor = new Betor(Betor.EncryptCharacterUsingShuffledAlphabet, Betor.DecryptCharacterUsingShuffledAlphabet);
 
             var passphrase = "InvalidCipherTextShouldNotTHrowAnException";
 

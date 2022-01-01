@@ -6,12 +6,12 @@ using System.Linq;
 namespace Krypt2Library.Tests
 {
     [TestClass()]
-    public class BetorAlphabetFactoryTests
+    public class RandomsFactoryTests
     {
         [TestMethod()]
         public void GetRandomsForPassphraseTest()
         {
-            List<Random> randomsList = BetorAlphabetFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
 
             Assert.AreEqual(8, randomsList.Count);
 
@@ -33,7 +33,7 @@ namespace Krypt2Library.Tests
                 73, 81, 89, 97, 105, 113, 121, 129
             };
 
-            List<int> seedsList = BetorAlphabetFactory.GetRandomSeedsFromByteArray(array);
+            List<int> seedsList = RandomsFactory.GetRandomSeedsFromByteArray(array);
 
             Assert.AreEqual(8, seedsList.Count);
 

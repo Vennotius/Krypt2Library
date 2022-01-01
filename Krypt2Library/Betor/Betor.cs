@@ -5,7 +5,16 @@ namespace Krypt2Library
 {
     public class Betor : ICipher
     {
+        private readonly Func<char, int, BetorAlphabetFactory, char> encryptCharacter;
+        private readonly Func<char, int, BetorAlphabetFactory, char> decryptCharacter;
+
         private BetorAlphabetFactory AlphabetFactory { get; set; }
+
+        public Betor(Func<char, int, BetorAlphabetFactory, char> encryptCharacter, Func<char, int, BetorAlphabetFactory, char> decryptCharacter)
+        {
+            this.encryptCharacter = encryptCharacter;
+            this.decryptCharacter = decryptCharacter;
+        }
 
         public string Encrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
         {
@@ -42,7 +51,7 @@ namespace Krypt2Library
 
             for (int i = 0; i < message.Length; i++)
             {
-                output.Append(EncryptCharacter(message[i], passIndex));
+                output.Append(encryptCharacter(message[i], passIndex, AlphabetFactory));
                 
                 currentCharacterIndex++;
                 
@@ -51,10 +60,10 @@ namespace Krypt2Library
 
             return output.ToString();
         }
-        private char EncryptCharacter(char c, int passIndex)
+        public static char EncryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
-            var index = AlphabetFactory.Alphabet.IndexOf(c);
-            var cipherAlphabet = AlphabetFactory.GetAlphabetForNextCharacter(passIndex);
+            var index = alphabetFactory.Alphabet.IndexOf(c);
+            var cipherAlphabet = alphabetFactory.GetAlphabetForNextCharacter(passIndex);
 
             return cipherAlphabet[index];
         }
@@ -102,7 +111,7 @@ namespace Krypt2Library
 
             for (int i = startIndex; i < message.Length; i++)
             {
-                output.Append(DecryptCharacter(message[i], passIndex));
+                output.Append(decryptCharacter(message[i], passIndex, AlphabetFactory));
                 currentCharacterIndex++;
 
                 currentPercent = ReportProgress(backgroundWorker, currentCharacterIndex, totalCharactersToProcess, onePercentOfTotal, currentPercent);
@@ -110,10 +119,10 @@ namespace Krypt2Library
 
             return output.ToString();
         }
-        private char DecryptCharacter(char c, int passIndex)
+        public static char DecryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
-            var index = AlphabetFactory.GetAlphabetForNextCharacter(passIndex).IndexOf(c);
-            var cipherAlphabet = AlphabetFactory.Alphabet;
+            var index = alphabetFactory.GetAlphabetForNextCharacter(passIndex).IndexOf(c);
+            var cipherAlphabet = alphabetFactory.Alphabet;
 
             return cipherAlphabet[index];
         }
