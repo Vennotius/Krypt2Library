@@ -56,5 +56,42 @@ namespace Krypt2Library
                 }
             }
         }
+
+        internal int GetShiftAmountForNextCharacter(int inputIndex, int randomIndex, CryptType cryptType)
+        {
+            var shiftAmount = _randoms[randomIndex].Next(Alphabet.Length);
+            
+            if (cryptType == CryptType.Decryption) shiftAmount *= -1;
+            
+            int finalIndex = ShiftWrapper(inputIndex, shiftAmount, Alphabet.Length);
+
+
+            return finalIndex;
+        }
+
+        internal static int ShiftWrapper(int inputIndex, int shiftAmount, int length)
+        {
+            if (shiftAmount == 0) return inputIndex;
+
+            var output = inputIndex + shiftAmount;
+
+            if (output > 0)
+            {
+                while (output > length - 1)
+                {
+                    output -= length;
+                }
+            }
+
+            if (output < 0)
+            {
+                while (output < 0)
+                {
+                    output += length;
+                }
+            }
+
+            return output;
+        }
     }
 }

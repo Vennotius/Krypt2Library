@@ -68,6 +68,14 @@ namespace Krypt2Library
             return cipherAlphabet[index];
         }
 
+        public static char EncryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        {
+            var inputIndex = alphabetFactory.Alphabet.IndexOf(c);
+            var outputIndex = alphabetFactory.GetShiftAmountForNextCharacter(inputIndex, passIndex, CryptType.Encryption);
+            
+            return alphabetFactory.Alphabet[outputIndex];
+        }
+
         public string Decrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
         {
             var output = new StringBuilder();
@@ -125,6 +133,14 @@ namespace Krypt2Library
             var cipherAlphabet = alphabetFactory.Alphabet;
 
             return cipherAlphabet[index];
+        }
+
+        public static char DecryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        {
+            var inputIndex = alphabetFactory.Alphabet.IndexOf(c);
+            var outputIndex = alphabetFactory.GetShiftAmountForNextCharacter(inputIndex, passIndex, CryptType.Decryption);
+
+            return alphabetFactory.Alphabet[outputIndex];
         }
 
         private void PrependAdditionalAlphabetCharacters(StringBuilder output)
