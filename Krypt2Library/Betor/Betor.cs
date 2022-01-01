@@ -10,11 +10,26 @@ namespace Krypt2Library
 
         private BetorAlphabetFactory AlphabetFactory { get; set; }
 
-        public Betor(Func<char, int, BetorAlphabetFactory, char> encryptCharacter, Func<char, int, BetorAlphabetFactory, char> decryptCharacter)
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public Betor(CharacterSwapMethod swapMethod)
         {
-            this.encryptCharacter = encryptCharacter;
-            this.decryptCharacter = decryptCharacter;
+            switch (swapMethod)
+            {
+                case CharacterSwapMethod.Shuffle:
+                    this.encryptCharacter = EncryptCharacterUsingShuffledAlphabet;
+                    this.decryptCharacter = DecryptCharacterUsingShuffledAlphabet;
+                    break;
+                case CharacterSwapMethod.Shift:
+                    this.encryptCharacter = EncryptCharacterUsingShift;
+                    this.decryptCharacter = DecryptCharacterUsingShift;
+                    break;
+                default:
+                    this.encryptCharacter = EncryptCharacterUsingShift;
+                    this.decryptCharacter = DecryptCharacterUsingShift;
+                    break;
+            }
         }
+        #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public string Encrypt(string passphrase, string message, BackgroundWorker backgroundWorker)
         {
@@ -60,7 +75,7 @@ namespace Krypt2Library
 
             return output.ToString();
         }
-        public static char EncryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        private static char EncryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
             var index = alphabetFactory.Alphabet.IndexOf(c);
             var cipherAlphabet = alphabetFactory.GetAlphabetForNextCharacter(passIndex);
@@ -68,7 +83,7 @@ namespace Krypt2Library
             return cipherAlphabet[index];
         }
 
-        public static char EncryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        private static char EncryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
             var inputIndex = alphabetFactory.Alphabet.IndexOf(c);
             var outputIndex = alphabetFactory.GetShiftAmountForNextCharacter(inputIndex, passIndex, CryptType.Encryption);
@@ -127,7 +142,7 @@ namespace Krypt2Library
 
             return output.ToString();
         }
-        public static char DecryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        private static char DecryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
             var index = alphabetFactory.GetAlphabetForNextCharacter(passIndex).IndexOf(c);
             var cipherAlphabet = alphabetFactory.Alphabet;
@@ -135,7 +150,7 @@ namespace Krypt2Library
             return cipherAlphabet[index];
         }
 
-        public static char DecryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
+        private static char DecryptCharacterUsingShift(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
         {
             var inputIndex = alphabetFactory.Alphabet.IndexOf(c);
             var outputIndex = alphabetFactory.GetShiftAmountForNextCharacter(inputIndex, passIndex, CryptType.Decryption);
