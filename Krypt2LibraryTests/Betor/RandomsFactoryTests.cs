@@ -59,7 +59,7 @@ namespace Krypt2Library.Tests
                 73, 81, 89, 97, 105, 113, 121, 129
             };
 
-            List<int> seedsList = RandomsFactory.GetRandomSeedsFromByteArray(array);
+            List<int> seedsList = RandomsFactory.GetInt32SeedsFromByteArray(array);
 
             Assert.AreEqual(8, seedsList.Count);
 

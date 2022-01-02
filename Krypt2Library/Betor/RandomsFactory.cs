@@ -9,11 +9,7 @@ namespace Krypt2Library
         {
             var output = new List<Random>();
 
-            byte[] hashArray = GetHashByteArray(passphrase);
-
-            List<int> randomSeeds = GetRandomSeedsFromByteArray(hashArray);
-
-            foreach (var seed in randomSeeds)
+            foreach (var seed in GetRandomSeedsFromPassphrase(passphrase))
             {
                 output.Add(new OurRandom(seed));
             }
@@ -23,17 +19,25 @@ namespace Krypt2Library
             return output;
         }
 
-        internal static List<int> GetRandomSeedsFromByteArray(byte[] hashArray)
+        private static List<int> GetRandomSeedsFromPassphrase(string passphrase)
+        {
+            byte[] hashArray = GetHashByteArray(passphrase);
+
+            List<int> randomSeeds = GetInt32SeedsFromByteArray(hashArray);
+
+            return randomSeeds;
+        }
+
+        internal static List<int> GetInt32SeedsFromByteArray(byte[] hashArray)
         {
             var output = new List<int>();
 
             for (int i = 0; i < 32; i += 4)
             {
-                int seed =
-                    hashArray[i] +
-                    (hashArray[i + 1] * 256) +
-                    (hashArray[i + 2] * 256 * 256) +
-                    (hashArray[i + 3] * 256 * 256 * 256);
+                int seed = hashArray[i] +
+                          (hashArray[i + 1] * 256) +
+                          (hashArray[i + 2] * 256 * 256) +
+                          (hashArray[i + 3] * 256 * 256 * 256);
 
                 output.Add(seed);
             }

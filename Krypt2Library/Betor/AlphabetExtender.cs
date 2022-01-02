@@ -4,7 +4,15 @@ namespace Krypt2Library
 {
     public static class AlphabetExtender
     {
-        public static (string outputExtendedAlphabet, string addedCharacters, int messageStartIndex) 
+        /// <summary>
+        /// If the message contains characters that are not in the standard alphabet, they should be added.
+        /// </summary>
+        /// <param name="alphabet"></param>
+        /// <param name="message"></param>
+        /// <param name="cryptType"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static (string extendedAlphabet, string addedCharacters, int messageStartIndex) 
             ExtendAlphabetIfNeeded(string alphabet, string message, CryptType cryptType)
         {
             switch (cryptType)
@@ -38,7 +46,7 @@ namespace Krypt2Library
 
             var addedCharacters = AddMissingCharactersForEncryption(alphabet, message, extendedAlphabet);
 
-            var index = 0; // Because it does not apply;
+            var index = 0; // Because it only applies to decryption where our message starts directly after the declaration of additional characters;
 
             return (extendedAlphabet.ToString(), addedCharacters.ToString(), index);
         }
@@ -67,7 +75,9 @@ namespace Krypt2Library
                 }
             }
 
-            added.Sort();  // For security reasons, in order that nothing might be inferred from the order in which added characters appear at the start of the cipherText.
+            // For security reasons, in order that nothing might be inferred from
+            // the order in which added characters appear at the beginning of the cipherText.
+            added.Sort();  
             
             return added;
         }
@@ -86,16 +96,19 @@ namespace Krypt2Library
         }
         private static int AddMissingCharactersForDecryptionAndReturnStartingIndex(Dictionary<char, int> alphabet, string message, StringBuilder addedCharacters, StringBuilder extendedAlphabet)
         {
-            var added = new Dictionary<char, int>();
+            var _alreadyAdded = new Dictionary<char, bool>();
 
             int output = 0;
             foreach (char c in message)
             {
+                // This works because additional characters in cipherText are prepended to the message.
+                // Therefore, once we encounter a known character, we know that out job here is done.
                 if (extendedAlphabet.ToString().Contains(c) == true) break;
-                if (alphabet.ContainsKey(c) == false && added.ContainsKey(c) == false)
+
+                if (alphabet.ContainsKey(c) == false && _alreadyAdded.ContainsKey(c) == false)
                 {
+                    _alreadyAdded.Add(c, true);
                     extendedAlphabet.Append(c);
-                    added.Add(c, 1);
                     addedCharacters.Append(c);
                     output++;
                 }
