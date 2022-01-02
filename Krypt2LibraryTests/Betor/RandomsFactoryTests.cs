@@ -21,6 +21,32 @@ namespace Krypt2Library.Tests
             }
         }
 
+        [DataRow(0, 1, 2)]
+        [DataRow(3, 4, 5)]
+        [DataRow(6, 7, 0)]
+        [DataRow(1, 3, 6)]
+        [TestMethod()]
+        public void RandomsAreIndeedDifferentTest(int a, int b, int c)
+        {
+            List<Random> randomsList = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            CompareThree(randomsList, a, b, c);
+        }
+
+        private static void CompareThree(List<Random> randomsList, int a, int b, int c)
+        {
+            var one = new List<int>();
+            var two = new List<int>();
+            var three = new List<int>();
+            for (int i = 0; i < 10; i++)
+            {
+                one.Add(randomsList[a].Next(50));
+                two.Add(randomsList[b].Next(50));
+                three.Add(randomsList[c].Next(50));
+            }
+            Assert.IsFalse(one.SequenceEqual(two));
+            Assert.IsFalse(one.SequenceEqual(three));
+            Assert.IsFalse(two.SequenceEqual(three));
+        }
 
         [TestMethod()]
         public void GetRandomSeedsFromByteArrayTest()
