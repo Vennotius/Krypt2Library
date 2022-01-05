@@ -47,37 +47,37 @@ namespace Krypt2Library.Tests
             Assert.AreEqual(message, decryptedText);
         }
 
-        [DataRow("This string does not contain any grapheme clusters. It is a sanity check for the test itself. Κύριος Ἰησοῦς")]
-        [DataRow("👩🏽‍🚒 Testing some Grapheme clusters. á  á")]
-        [TestMethod()]
-        public void UnicodeGraphemeClustersUsingShiftTest(string message)
-        {
-            var betor = new Betor(CharacterSwapMethod.Shift);
+        //[DataRow("This string does not contain any grapheme clusters. It is a sanity check for the test itself. Κύριος Ἰησοῦς")]
+        //[DataRow("👩🏽‍🚒 Testing some Grapheme clusters. á  á")]
+        //[TestMethod()]
+        //public void UnicodeGraphemeClustersUsingShiftTest(string message)
+        //{
+        //    var betor = new Betor(CharacterSwapMethod.Shift);
 
-            var passphrase = "https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction";
+        //    var passphrase = "https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction";
 
-            var cipherText = betor.Encrypt(passphrase, message, null);
-            var decryptedText = betor.Decrypt(passphrase, cipherText, null);
+        //    var cipherText = betor.Encrypt(passphrase, message, null);
+        //    var decryptedText = betor.Decrypt(passphrase, cipherText, null);
 
-            Assert.AreEqual(cipherText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(cipherText)));
-            Assert.AreEqual(decryptedText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(decryptedText)));
-        }
+        //    Assert.AreEqual(cipherText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(cipherText)));
+        //    Assert.AreEqual(decryptedText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(decryptedText)));
+        //}
 
-        [DataRow("This string does not contain any grapheme clusters. It is a sanity check for the test itself. Κύριος Ἰησοῦς")]
-        [DataRow("👩🏽‍🚒 Testing some Grapheme clusters. á  á")]
-        [TestMethod()]
-        public void UnicodeGraphemeClustersUsingShuffleTest(string message)
-        {
-            var betor = new Betor(CharacterSwapMethod.Shuffle);
+        //[DataRow("This string does not contain any grapheme clusters. It is a sanity check for the test itself. Κύριος Ἰησοῦς")]
+        //[DataRow("👩🏽‍🚒 Testing some Grapheme clusters. á  á")]
+        //[TestMethod()]
+        //public void UnicodeGraphemeClustersUsingShuffleTest(string message)
+        //{
+        //    var betor = new Betor(CharacterSwapMethod.Shuffle);
 
-            var passphrase = "https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction";
+        //    var passphrase = "https://docs.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction";
 
-            var cipherText = betor.Encrypt(passphrase, message, null);
-            var decryptedText = betor.Decrypt(passphrase, cipherText, null);
+        //    var cipherText = betor.Encrypt(passphrase, message, null);
+        //    var decryptedText = betor.Decrypt(passphrase, cipherText, null);
 
-            Assert.AreEqual(cipherText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(cipherText)));
-            Assert.AreEqual(decryptedText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(decryptedText)));
-        }
+        //    Assert.AreEqual(cipherText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(cipherText)));
+        //    Assert.AreEqual(decryptedText, Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(decryptedText)));
+        //}
 
 
         [TestMethod()]
