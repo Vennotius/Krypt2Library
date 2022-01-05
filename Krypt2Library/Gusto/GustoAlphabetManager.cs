@@ -9,8 +9,8 @@ namespace Krypt2Library
 
         internal static (List<object> alphabet, List<object> added) InitializeAlphabet(CryptType activity, string message)
         {
-            List<object> added = new List<object>();
-            List<object> alphabetAsList = new List<object>();
+            List<object> added;
+            List<object> alphabetAsList;
 
             switch (activity)
             {
@@ -21,8 +21,7 @@ namespace Krypt2Library
                     ExtendAlphabetForDecyption(message, out added, out alphabetAsList);
                     return (alphabetAsList, added);
                 default:
-                    ExtendAlphabetForEncyption(message, out added, out alphabetAsList);
-                    return (alphabetAsList, added);
+                    throw new Exception("Invalid CryptType.");
             }
         }
 
@@ -67,6 +66,7 @@ namespace Krypt2Library
                 alphabetAsList.Add(item);
             }
         }
+
 
         internal static List<object> StringToListOfObjects(string input)
         {
