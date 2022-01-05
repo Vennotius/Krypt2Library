@@ -12,7 +12,7 @@ namespace Krypt2Library
         /// <param name="cryptType"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static (string extendedAlphabet, string addedCharacters, int messageStartIndex) 
+        public static (string extendedAlphabet, string addedCharacters, int messageStartIndex)
             ExtendAlphabetIfNeeded(string alphabet, string message, CryptType cryptType)
         {
             switch (cryptType)
@@ -77,8 +77,8 @@ namespace Krypt2Library
 
             // For security reasons, in order that nothing might be inferred from
             // the order in which added characters appear at the beginning of the cipherText.
-            added.Sort();  
-            
+            added.Sort();
+
             return added;
         }
 

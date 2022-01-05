@@ -59,9 +59,9 @@ namespace Krypt2Library
         internal int GetShiftAmountForNextCharacter(int inputIndex, int randomIndex, CryptType cryptType)
         {
             var shiftAmount = _randoms[randomIndex].Next(Alphabet.Length);
-            
+
             if (cryptType == CryptType.Decryption) shiftAmount *= -1;
-            
+
             int finalIndex = ShiftWrapper(inputIndex, shiftAmount, Alphabet.Length);
 
 

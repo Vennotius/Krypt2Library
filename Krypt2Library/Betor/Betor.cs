@@ -10,7 +10,7 @@ namespace Krypt2Library
 
         private BetorAlphabetFactory AlphabetFactory { get; set; }
 
-        #pragma warning disable CS8618
+#pragma warning disable CS8618
         public Betor(CharacterSwapMethod swapMethod)
         {
             switch (swapMethod)
@@ -29,7 +29,7 @@ namespace Krypt2Library
                     break;
             }
         }
-        #pragma warning restore CS8618
+#pragma warning restore CS8618
 
         public string Encrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
@@ -73,9 +73,9 @@ namespace Krypt2Library
             for (int i = 0; i < message.Length; i++)
             {
                 output.Append(encryptCharacter(message[i], passIndex, AlphabetFactory));
-                
+
                 currentCharacterIndex++;
-                
+
                 currentPercent = ReportProgress(backgroundWorker, currentCharacterIndex, totalCharactersToProcess, onePercentOfTotal, currentPercent);
             }
 
@@ -85,7 +85,7 @@ namespace Krypt2Library
         {
             var inputIndex = alphabetFactory.Alphabet.IndexOf(c);
             var outputIndex = alphabetFactory.GetShiftAmountForNextCharacter(inputIndex, passIndex, CryptType.Encryption);
-            
+
             return alphabetFactory.Alphabet[outputIndex];
         }
         private static char EncryptCharacterUsingShuffledAlphabet(char c, int passIndex, BetorAlphabetFactory alphabetFactory)
@@ -175,7 +175,7 @@ namespace Krypt2Library
         private static double ReportProgress(BackgroundWorker? backgroundWorker, int currentCharacterIndex, double totalCharactersToProcess, double onePercentOfTotal, double currentPercent)
         {
             if (backgroundWorker == null) return currentPercent;
-            
+
             if (currentCharacterIndex == totalCharactersToProcess)
             {
                 backgroundWorker.ReportProgress(100);

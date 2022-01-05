@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Krypt2Library
+﻿namespace Krypt2Library
 {
     /// <summary>
     /// This code is from the .NET repository. 
@@ -12,7 +6,7 @@ namespace Krypt2Library
     /// possible to reproduce in other languages if one has the source for this.
     /// It works exactly the same as Random.cs, but mostly only includes what is used in the library.
     /// </summary>
-    public class OurRandom: Random
+    public class OurRandom : Random
     {
         /// <summary>Reference to the <see cref="Random"/> containing this implementation instance.</summary>
         /// <remarks>Used to ensure that any calls to other virtual members are performed using the Random-derived instance, if one exists.</remarks>
@@ -76,7 +70,7 @@ namespace Krypt2Library
             InternalSample() * (1.0 / int.MaxValue);
 
         public override int Next() => InternalSample();
-        
+
         public override int Next(int maxValue) => (int)(Sample() * maxValue);
 
         // Not currently used, but is included. (20220101)

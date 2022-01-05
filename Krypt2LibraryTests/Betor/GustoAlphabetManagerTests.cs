@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 namespace Krypt2Library.Tests
 {
@@ -107,7 +105,7 @@ namespace Krypt2Library.Tests
             var gusto2 = new Gusto();
             var decryptedText = gusto2.Decrypt(passphrase, cipherText, null);
 
-            Assert.AreEqual(message, decryptedText);    
+            Assert.AreEqual(message, decryptedText);
         }
     }
 }

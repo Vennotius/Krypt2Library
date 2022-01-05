@@ -11,17 +11,17 @@ namespace Krypt2Library
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Encryption);
 
-            return Shift(passphrase, message, backgroundWorker, CryptType.Encryption);
+            return Shift(message, backgroundWorker, CryptType.Encryption);
         }
         public string Decrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
 
-            return Shift(passphrase, message, backgroundWorker, CryptType.Decryption);
+            return Shift(message, backgroundWorker, CryptType.Decryption);
         }
 
 
-        private string Shift(string passphrase, string message, BackgroundWorker? backgroundWorker, CryptType cryptType)
+        private string Shift(string message, BackgroundWorker? backgroundWorker, CryptType cryptType)
         {
             var output = new StringBuilder();
 
@@ -87,7 +87,7 @@ namespace Krypt2Library
         }
 
 
-        private static void PrependAddedCharactersForEncryption(CryptType cryptType, StringBuilder output, List<object>? addedAsList)
+        private static void PrependAddedCharactersForEncryption(CryptType cryptType, StringBuilder output, List<object> addedAsList)
         {
             if (cryptType == CryptType.Encryption)
             {

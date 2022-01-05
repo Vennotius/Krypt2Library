@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Text;
 
 namespace Krypt2Library
 {
@@ -33,7 +32,7 @@ namespace Krypt2Library
             foreach (var textElement in messageAsList)
             {
                 if (added.Contains(textElement) == true) break;
-                
+
                 if (alphabetAsList.Contains(textElement) == false)
                 {
                     added.Add(textElement);
@@ -75,7 +74,6 @@ namespace Krypt2Library
             while (enumerator.MoveNext())
             {
                 output.Add(enumerator.Current);
-                var t = enumerator.Current;
             }
 
             return output;
