@@ -24,7 +24,6 @@ namespace Krypt2Library
                     throw new Exception("Invalid CryptType.");
             }
         }
-
         private static void ExtendAlphabetForDecyption(string message, out List<object> added, out List<object> alphabetAsList)
         {
             added = new List<object>();
@@ -42,7 +41,6 @@ namespace Krypt2Library
                 }
             }
         }
-
         private static void ExtendAlphabetForEncyption(string message, out List<object> added, out List<object> alphabetAsList)
         {
             added = new List<object>();

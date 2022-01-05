@@ -21,6 +21,39 @@ namespace Krypt2Library.Tests
             }
         }
 
+        [TestMethod()]
+        public void GetRandomsForPassphraseRepeatabilityTest()
+        {
+            List<Random> randomsList1 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList2 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            CompareRandomsLists(randomsList1, randomsList2);
+
+            List<Random> randomsList3 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList4 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            CompareRandomsLists(randomsList3, randomsList4);
+
+            List<Random> randomsList5 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList6 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            randomsList6.Reverse();
+            CompareRandomsLists(randomsList5, randomsList6);
+
+            List<Random> randomsList7 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList8 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            randomsList8.Reverse();
+            CompareRandomsLists(randomsList7, randomsList8);
+        }
+
+        private static void CompareRandomsLists(List<Random> randomsList1, List<Random> randomsList2)
+        {
+            for (int i = 0; i < randomsList1.Count; i++)
+            {
+                for (int j = 20; j < 30; j++)
+                {
+                    Assert.AreEqual(randomsList1[i].Next(j), randomsList2[i].Next(j));
+                }
+            }
+        }
+
         [DataRow(0, 1, 2)]
         [DataRow(3, 4, 5)]
         [DataRow(6, 7, 0)]
