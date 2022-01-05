@@ -18,11 +18,29 @@ namespace Krypt2Library
                     ExtendAlphabetForEncyption(message, out added, out alphabetAsList);
                     return (alphabetAsList, added);
                 case CryptType.Decryption:
-                    ExtendAlphabetForEncyption(message, out added, out alphabetAsList);
+                    ExtendAlphabetForDecyption(message, out added, out alphabetAsList);
                     return (alphabetAsList, added);
                 default:
                     ExtendAlphabetForEncyption(message, out added, out alphabetAsList);
                     return (alphabetAsList, added);
+            }
+        }
+
+        private void ExtendAlphabetForDecyption(string message, out List<object> added, out List<object> alphabetAsList)
+        {
+            added = new List<object>();
+            alphabetAsList = StringToListOfObjects(_standardAlphabet);
+            var messageAsList = StringToListOfObjects(message);
+
+            foreach (var textElement in messageAsList)
+            {
+                if (added.Contains(textElement) == true) break;
+                
+                if (alphabetAsList.Contains(textElement) == false)
+                {
+                    added.Add(textElement);
+                    alphabetAsList.Add(textElement);
+                }
             }
         }
 
