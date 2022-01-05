@@ -36,7 +36,7 @@ namespace Krypt2Library.Tests
         }
 
         [DataRow("Hallo", "")]
-        [DataRow("êDagsê", "ê")]
+        [DataRow("êêDagsê", "ê")]
         [DataRow("👩🏽‍🚒á Testing some Grapheme clusters. á  á", "👩🏽‍🚒á")]
         [TestMethod()]
         public void InitializeAlphabetForDecryptionTest(string cipherText, string expectedAdded)
