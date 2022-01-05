@@ -4,16 +4,9 @@ namespace Krypt2Library
 {
     public class Gusto : ICipher
     {
-        private readonly GustoAlphabetManager _alphabetManager;
-
-        public Gusto(GustoAlphabetManager alphabetManager)
-        {
-            _alphabetManager = alphabetManager;
-        }
-
         public string Encrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
-            _alphabetManager.InitializeAlphabet(CryptType.Encryption, message);
+            GustoAlphabetManager.InitializeAlphabet(CryptType.Encryption, message);
 
             return "";
         }

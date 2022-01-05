@@ -5,9 +5,9 @@ namespace Krypt2Library
 {
     public class GustoAlphabetManager
     {
-        private readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
+        private static readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
 
-        internal (List<object> alphabet, List<object> added) InitializeAlphabet(CryptType activity, string message)
+        internal static (List<object> alphabet, List<object> added) InitializeAlphabet(CryptType activity, string message)
         {
             List<object> added = new List<object>();
             List<object> alphabetAsList = new List<object>();
@@ -26,7 +26,7 @@ namespace Krypt2Library
             }
         }
 
-        private void ExtendAlphabetForDecyption(string message, out List<object> added, out List<object> alphabetAsList)
+        private static void ExtendAlphabetForDecyption(string message, out List<object> added, out List<object> alphabetAsList)
         {
             added = new List<object>();
             alphabetAsList = StringToListOfObjects(_standardAlphabet);
@@ -44,7 +44,7 @@ namespace Krypt2Library
             }
         }
 
-        private void ExtendAlphabetForEncyption(string message, out List<object> added, out List<object> alphabetAsList)
+        private static void ExtendAlphabetForEncyption(string message, out List<object> added, out List<object> alphabetAsList)
         {
             added = new List<object>();
             alphabetAsList = StringToListOfObjects(_standardAlphabet);

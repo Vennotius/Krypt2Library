@@ -16,9 +16,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void InitializeAlphabetForEncryptionTest(string message, string expectedAdded)
         {
-            var azMgr = new GustoAlphabetManager();
-
-            (List<object> alphabet, List<object> added) = azMgr.InitializeAlphabet(CryptType.Encryption, message);
+            (List<object> alphabet, List<object> added) = GustoAlphabetManager.InitializeAlphabet(CryptType.Encryption, message);
 
             var expectedNewAlphabet = GustoAlphabetManager.StringToListOfObjects(_standardAlphabet + expectedAdded);
             var expectedNewAdded = GustoAlphabetManager.StringToListOfObjects(expectedAdded);
@@ -43,9 +41,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void InitializeAlphabetForDecryptionTest(string cipherText, string expectedAdded)
         {
-            var azMgr = new GustoAlphabetManager();
-
-            (List<object> alphabet, List<object> added) = azMgr.InitializeAlphabet(CryptType.Decryption, cipherText);
+            (List<object> alphabet, List<object> added) = GustoAlphabetManager.InitializeAlphabet(CryptType.Decryption, cipherText);
 
             var expectedNewAlphabet = GustoAlphabetManager.StringToListOfObjects(_standardAlphabet + expectedAdded);
             var expectedNewAdded = GustoAlphabetManager.StringToListOfObjects(expectedAdded);
