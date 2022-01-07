@@ -2,7 +2,7 @@
 
 namespace Krypt2Library
 {
-    public class GustoAlphabetManager
+    public static class GustoAlphabetManager
     {
         private static readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
 

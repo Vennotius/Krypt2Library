@@ -18,7 +18,6 @@ namespace Krypt2Library
 
             return output;
         }
-
         private static List<int> GetRandomSeedsFromPassphrase(string passphrase)
         {
             byte[] hashArray = GetHashByteArray(passphrase);
@@ -27,7 +26,6 @@ namespace Krypt2Library
 
             return randomSeeds;
         }
-
         internal static List<int> GetInt32SeedsFromByteArray(byte[] hashArray)
         {
             var output = new List<int>();
@@ -44,7 +42,6 @@ namespace Krypt2Library
 
             return output;
         }
-
         private static byte[] GetHashByteArray(string passphrase)
         {
             byte[] hash;

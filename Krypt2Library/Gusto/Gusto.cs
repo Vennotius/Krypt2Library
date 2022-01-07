@@ -62,24 +62,16 @@ namespace Krypt2Library
         }
         private static int WrapperForShift(int inputIndex, int shiftAmount, int length)
         {
-            if (shiftAmount == 0) return inputIndex;
-
             var output = inputIndex + shiftAmount;
 
-            if (output > 0)
+            while (output > length - 1)
             {
-                while (output > length - 1)
-                {
-                    output -= length;
-                }
+                output -= length;
             }
 
-            if (output < 0)
+            while (output < 0)
             {
-                while (output < 0)
-                {
-                    output += length;
-                }
+                output += length;
             }
 
             return output;
