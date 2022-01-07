@@ -51,14 +51,14 @@ namespace Krypt2Library
             {
                 int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
-                messageAsList[i] = ShiftTextElement(messageAsList[i], alphabet.AllCharacters, shiftAmount);
+                messageAsList[i] = ShiftTextElement(messageAsList[i], alphabet, shiftAmount);
             }
         }
-        private static object ShiftTextElement(object textElement, List<object> alphabetAsList, int shiftAmount)
+        private static object ShiftTextElement(object textElement, Alphabet alphabet, int shiftAmount)
         {
-            int startIndex = alphabetAsList.IndexOf(textElement);
-            int shiftedIndex = ShiftWrapper(startIndex, shiftAmount, alphabetAsList.Count);
-            return alphabetAsList[shiftedIndex];
+            int startIndex = alphabet.AllCharacters.IndexOf(textElement);
+            int shiftedIndex = ShiftWrapper(startIndex, shiftAmount, alphabet.AllCharacters.Count);
+            return alphabet.AllCharacters[shiftedIndex];
         }
         private static int ShiftWrapper(int inputIndex, int shiftAmount, int length)
         {
