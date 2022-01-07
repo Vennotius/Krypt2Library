@@ -15,9 +15,7 @@ namespace Krypt2Library
             switch (cryptType)
             {
                 case CryptType.Encryption:
-                    ExtendAlphabetForEncyption(message, out addedAsList, out alphabetAsList);
-                    output = new Alphabet(alphabetAsList, addedAsList, cryptType);
-                    return output;
+                    return ExtendAlphabetForEncyption(message);
                 case CryptType.Decryption:
                     ExtendAlphabetForDecyption(message, out addedAsList, out alphabetAsList);
                     output = new Alphabet(alphabetAsList, addedAsList, cryptType);
@@ -26,33 +24,37 @@ namespace Krypt2Library
                     throw new Exception("Invalid CryptType.");
             }
         }
-        private static void ExtendAlphabetForEncyption(string message, out List<object> addedAsList, out List<object> alphabetAsList)
+        private static Alphabet ExtendAlphabetForEncyption(string message)
         {
-            InitializeForVariablesForExtendAlphabet(message, out addedAsList, out alphabetAsList, out List<object> messageAsList);
-            
-            ExtractAdditionalCharactersFromMessage(addedAsList, alphabetAsList, messageAsList);
+            var alphabet = new Alphabet(CryptType.Encryption);
+            alphabet.AllCharacters = StringToListOfObjects(_standardAlphabet);
+            var messageAsList = StringToListOfObjects(message);
 
-            AppendAddedToAlphabet(addedAsList, alphabetAsList);
+            ExtractAdditionalCharactersFromMessage(alphabet, messageAsList);
+
+            AppendAddedToAlphabet(alphabet);
+
+            return alphabet;
         }
-        private static void ExtractAdditionalCharactersFromMessage(List<object> added, List<object> alphabetAsList, List<object> messageAsList)
+        private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, List<object> messageAsList)
         {
             foreach (var textElement in messageAsList)
             {
-                if (added.Contains(textElement) == false)
+                if (alphabet.AddedCharacters.Contains(textElement) == false)
                 {
-                    if (alphabetAsList.Contains(textElement) == false)
+                    if (alphabet.AllCharacters.Contains(textElement) == false)
                     {
-                        added.Add(textElement);
+                        alphabet.AddedCharacters.Add(textElement);
                     }
                 }
             }
         }
-        private static void AppendAddedToAlphabet(List<object> added, List<object> alphabetAsList)
+        private static void AppendAddedToAlphabet(Alphabet alphabet)
         {
-            added.Sort();  // For security reasons.
-            foreach (var item in added)
+            alphabet.AddedCharacters.Sort();  // For security reasons.
+            foreach (var item in alphabet.AddedCharacters)
             {
-                alphabetAsList.Add(item);
+                alphabet.AllCharacters.Add(item);
             }
         }
 

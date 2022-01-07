@@ -6,6 +6,13 @@
         public List<object> AddedCharacters { get; set; }
         public CryptType CryptType { get; set; }
 
+        public Alphabet(CryptType cryptType)
+        {
+            AllCharacters = new List<object>();
+            AddedCharacters = new List<object>();
+            CryptType = cryptType;
+        }
+        
         public Alphabet(List<object> alphabetCharacters, List<object> addedCharacters, CryptType cryptType)
         {
             AllCharacters = alphabetCharacters ?? throw new ArgumentNullException(nameof(alphabetCharacters));
