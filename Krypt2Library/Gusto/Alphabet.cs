@@ -1,23 +1,32 @@
-﻿namespace Krypt2Library
+﻿using System.Globalization;
+
+namespace Krypt2Library
 {
     internal class Alphabet
     {
         public List<object> AllCharacters { get; set; }
         public List<object> AddedCharacters { get; set; }
-        public CryptType CryptType { get; set; }
+        public CryptType CryptType { get; init; }
 
-        public Alphabet(CryptType cryptType)
+        public Alphabet(string alphabet, CryptType cryptType)
         {
-            AllCharacters = new List<object>();
+            AllCharacters = StringToListOfObjects(alphabet);
             AddedCharacters = new List<object>();
             CryptType = cryptType;
         }
-        
-        public Alphabet(List<object> alphabetCharacters, List<object> addedCharacters, CryptType cryptType)
+
+        private static List<object> StringToListOfObjects(string input)
         {
-            AllCharacters = alphabetCharacters ?? throw new ArgumentNullException(nameof(alphabetCharacters));
-            AddedCharacters = addedCharacters ?? throw new ArgumentNullException(nameof(addedCharacters));
-            CryptType = cryptType;
+            var output = new List<object>();
+
+            TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(input);
+
+            while (enumerator.MoveNext())
+            {
+                output.Add(enumerator.Current);
+            }
+
+            return output;
         }
     }
 }

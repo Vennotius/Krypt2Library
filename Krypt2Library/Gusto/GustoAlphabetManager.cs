@@ -8,26 +8,20 @@ namespace Krypt2Library
 
         internal static Alphabet InitializeAlphabet(CryptType cryptType, string message)
         {
-            Alphabet output;
-            List<object> addedAsList;
-            List<object> alphabetAsList;
-
             switch (cryptType)
             {
                 case CryptType.Encryption:
                     return ExtendAlphabetForEncyption(message);
                 case CryptType.Decryption:
-                    ExtendAlphabetForDecyption(message, out addedAsList, out alphabetAsList);
-                    output = new Alphabet(alphabetAsList, addedAsList, cryptType);
-                    return output;
+                    return ExtendAlphabetForDecyption(message);
                 default:
                     throw new Exception("Invalid CryptType.");
             }
         }
+
         private static Alphabet ExtendAlphabetForEncyption(string message)
         {
-            var alphabet = new Alphabet(CryptType.Encryption);
-            alphabet.AllCharacters = StringToListOfObjects(_standardAlphabet);
+            var alphabet = new Alphabet(_standardAlphabet, CryptType.Encryption);
             var messageAsList = StringToListOfObjects(message);
 
             ExtractAdditionalCharactersFromMessage(alphabet, messageAsList);
@@ -59,30 +53,33 @@ namespace Krypt2Library
         }
 
 
-        private static void ExtendAlphabetForDecyption(string message, out List<object> added, out List<object> alphabetAsList)
+        private static Alphabet ExtendAlphabetForDecyption(string message)
         {
-            InitializeForVariablesForExtendAlphabet(message, out added, out alphabetAsList, out List<object> messageAsList);
-            
-            ExtractAdditionalCharactersFromCipherText(added, alphabetAsList, messageAsList);
+            var alphabet = new Alphabet(_standardAlphabet, CryptType.Decryption);
+            var messageAsList = StringToListOfObjects(message);
 
-            CheckForInvalidCipherText(messageAsList, alphabetAsList, added);
+            ExtractAdditionalCharactersFromCipherText(alphabet, messageAsList);
+
+            CheckForInvalidCipherText(alphabet, messageAsList);
+
+            return alphabet;
         }
-        private static void ExtractAdditionalCharactersFromCipherText(List<object> added, List<object> alphabetAsList, List<object> messageAsList)
+        private static void ExtractAdditionalCharactersFromCipherText(Alphabet alphabet, List<object> messageAsList)
         {
             foreach (var textElement in messageAsList)
             {
-                if (alphabetAsList.Contains(textElement) == true) break;
+                if (alphabet.AllCharacters.Contains(textElement) == true) break;
 
-                added.Add(textElement);
-                alphabetAsList.Add(textElement);
+                alphabet.AddedCharacters.Add(textElement);
+                alphabet.AllCharacters.Add(textElement);
             }
         }
-        private static void CheckForInvalidCipherText(List<object> messageAsList, List<object> alphabetAsList, List<object> added)
+        private static void CheckForInvalidCipherText(Alphabet alphabet, List<object> messageAsList)
         {
             // If, after the initial added characters in the CipherText, unknown characters are found, the CipherText is invalid.
-            for (int i = added.Count; i < messageAsList.Count; i++)
+            for (int i = alphabet.AddedCharacters.Count; i < messageAsList.Count; i++)
             {
-                if (alphabetAsList.Contains(messageAsList[i]) == false && added.Contains(messageAsList[i]) == false)
+                if (alphabet.AllCharacters.Contains(messageAsList[i]) == false && alphabet.AddedCharacters.Contains(messageAsList[i]) == false)
                 {
                     throw new InvalidCipherException("Invalid CipherText");
                 }
@@ -90,12 +87,6 @@ namespace Krypt2Library
         }
 
 
-        private static void InitializeForVariablesForExtendAlphabet(string message, out List<object> added, out List<object> alphabetAsList, out List<object> messageAsList)
-        {
-            added = new List<object>();
-            alphabetAsList = StringToListOfObjects(_standardAlphabet);
-            messageAsList = StringToListOfObjects(message);
-        }
         internal static List<object> StringToListOfObjects(string input)
         {
             var output = new List<object>();
