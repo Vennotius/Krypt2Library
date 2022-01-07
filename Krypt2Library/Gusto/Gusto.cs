@@ -26,7 +26,7 @@ namespace Krypt2Library
             var output = new StringBuilder();
             var alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
 
-            PrependAddedCharactersForEncryption(cryptType, output, alphabet.AddedCharacters);
+            PrependAddedCharactersIfEncryption(cryptType, output, alphabet.AddedCharacters);
 
             output.Append(ShiftMessage(message, alphabet));
 
@@ -57,10 +57,10 @@ namespace Krypt2Library
         private static object ShiftTextElement(object textElement, Alphabet alphabet, int shiftAmount)
         {
             int startIndex = alphabet.AllCharacters.IndexOf(textElement);
-            int shiftedIndex = ShiftWrapper(startIndex, shiftAmount, alphabet.AllCharacters.Count);
+            int shiftedIndex = WrapperForShift(startIndex, shiftAmount, alphabet.AllCharacters.Count);
             return alphabet.AllCharacters[shiftedIndex];
         }
-        private static int ShiftWrapper(int inputIndex, int shiftAmount, int length)
+        private static int WrapperForShift(int inputIndex, int shiftAmount, int length)
         {
             if (shiftAmount == 0) return inputIndex;
 
@@ -86,7 +86,7 @@ namespace Krypt2Library
         }
 
 
-        private static void PrependAddedCharactersForEncryption(CryptType cryptType, StringBuilder output, List<object> addedAsList)
+        private static void PrependAddedCharactersIfEncryption(CryptType cryptType, StringBuilder output, List<object> addedAsList)
         {
             if (cryptType == CryptType.Encryption)
             {
