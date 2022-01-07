@@ -52,7 +52,6 @@ namespace Krypt2Library
             }
         }
 
-
         private static Alphabet ExtendAlphabetForDecyption(string message)
         {
             var alphabet = new Alphabet(_standardAlphabet, CryptType.Decryption);

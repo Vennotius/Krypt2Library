@@ -35,9 +35,9 @@ namespace Krypt2Library
             for (int i = 0; i < 32; i += 4)
             {
                 int seed = hashArray[i] +
-                          (hashArray[i + 1] * 256) +
-                          (hashArray[i + 2] * 256 * 256) +
-                          (hashArray[i + 3] * 256 * 256 * 256);
+                          (hashArray[i + 1] << 8) +
+                          (hashArray[i + 2] << 16) +
+                          (hashArray[i + 3] << 24);
 
                 output.Add(seed);
             }
