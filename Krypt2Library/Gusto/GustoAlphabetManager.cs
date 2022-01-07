@@ -4,7 +4,7 @@ namespace Krypt2Library
 {
     public static class GustoAlphabetManager
     {
-        private static readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
+        private const string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
 
         internal static Alphabet InitializeAlphabet(CryptType cryptType, string message)
         {

@@ -85,7 +85,7 @@ namespace Krypt2Library.Tests
         public void InvalidCipherTextTest()
         {
             var cipherText = "ghgh~♫+";
-
+            
             Assert.ThrowsException<InvalidCipherException>(() => GustoAlphabetManager.InitializeAlphabet(CryptType.Decryption, cipherText));
         }
     }
