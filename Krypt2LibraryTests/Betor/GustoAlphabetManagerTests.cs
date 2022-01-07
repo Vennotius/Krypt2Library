@@ -14,22 +14,22 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void InitializeAlphabetForEncryptionTest(string message, string expectedAdded)
         {
-            (List<object> alphabet, List<object> added) = GustoAlphabetManager.InitializeAlphabet(CryptType.Encryption, message);
+            var alphabet = GustoAlphabetManager.InitializeAlphabet(CryptType.Encryption, message);
 
             var expectedNewAlphabet = GustoAlphabetManager.StringToListOfObjects(_standardAlphabet + expectedAdded);
             var expectedNewAdded = GustoAlphabetManager.StringToListOfObjects(expectedAdded);
 
-            Assert.AreEqual(expectedNewAlphabet.Count, alphabet.Count);
-            Assert.AreEqual(expectedNewAdded.Count, added.Count);
+            Assert.AreEqual(expectedNewAlphabet.Count, alphabet.AllCharacters.Count);
+            Assert.AreEqual(expectedNewAdded.Count, alphabet.AddedCharacters.Count);
 
             for (int i = 0; i < expectedNewAlphabet.Count; i++)
             {
-                Assert.AreEqual(expectedNewAlphabet[i], alphabet[i]);
+                Assert.AreEqual(expectedNewAlphabet[i], alphabet.AllCharacters[i]);
             }
 
             for (int i = 0; i < expectedNewAdded.Count; i++)
             {
-                Assert.AreEqual(expectedNewAdded[i], added[i]);
+                Assert.AreEqual(expectedNewAdded[i], alphabet.AddedCharacters[i]);
             }
         }
 
@@ -39,22 +39,22 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void InitializeAlphabetForDecryptionTest(string cipherText, string expectedAdded)
         {
-            (List<object> alphabet, List<object> added) = GustoAlphabetManager.InitializeAlphabet(CryptType.Decryption, cipherText);
+            var alphabet = GustoAlphabetManager.InitializeAlphabet(CryptType.Decryption, cipherText);
 
             var expectedNewAlphabet = GustoAlphabetManager.StringToListOfObjects(_standardAlphabet + expectedAdded);
             var expectedNewAdded = GustoAlphabetManager.StringToListOfObjects(expectedAdded);
 
-            Assert.AreEqual(expectedNewAlphabet.Count, alphabet.Count);
-            Assert.AreEqual(expectedNewAdded.Count, added.Count);
+            Assert.AreEqual(expectedNewAlphabet.Count, alphabet.AllCharacters.Count);
+            Assert.AreEqual(expectedNewAdded.Count, alphabet.AddedCharacters.Count);
 
             for (int i = 0; i < expectedNewAlphabet.Count; i++)
             {
-                Assert.AreEqual(expectedNewAlphabet[i], alphabet[i]);
+                Assert.AreEqual(expectedNewAlphabet[i], alphabet.AllCharacters[i]);
             }
 
             for (int i = 0; i < expectedNewAdded.Count; i++)
             {
-                Assert.AreEqual(expectedNewAdded[i], added[i]);
+                Assert.AreEqual(expectedNewAdded[i], alphabet.AddedCharacters[i]);
             }
         }
 

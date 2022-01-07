@@ -6,19 +6,22 @@ namespace Krypt2Library
     {
         private static readonly string _standardAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,?!\"':;()@#$%&*+-";
 
-        internal static (List<object> alphabet, List<object> added) InitializeAlphabet(CryptType activity, string message)
+        internal static Alphabet InitializeAlphabet(CryptType cryptType, string message)
         {
-            List<object> added;
+            Alphabet output;
+            List<object> addedAsList;
             List<object> alphabetAsList;
 
-            switch (activity)
+            switch (cryptType)
             {
                 case CryptType.Encryption:
-                    ExtendAlphabetForEncyption(message, out added, out alphabetAsList);
-                    return (alphabetAsList, added);
+                    ExtendAlphabetForEncyption(message, out addedAsList, out alphabetAsList);
+                    output = new Alphabet(alphabetAsList, addedAsList, cryptType);
+                    return output;
                 case CryptType.Decryption:
-                    ExtendAlphabetForDecyption(message, out added, out alphabetAsList);
-                    return (alphabetAsList, added);
+                    ExtendAlphabetForDecyption(message, out addedAsList, out alphabetAsList);
+                    output = new Alphabet(alphabetAsList, addedAsList, cryptType);
+                    return output;
                 default:
                     throw new Exception("Invalid CryptType.");
             }

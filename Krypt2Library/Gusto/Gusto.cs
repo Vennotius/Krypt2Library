@@ -11,48 +11,47 @@ namespace Krypt2Library
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Encryption);
 
-            return Shift(message, backgroundWorker, CryptType.Encryption);
+            return Shift(message, CryptType.Encryption);
         }
         public string Decrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
 
-            return Shift(message, backgroundWorker, CryptType.Decryption);
+            return Shift(message, CryptType.Decryption);
         }
 
 
-        private string Shift(string message, BackgroundWorker? backgroundWorker, CryptType cryptType)
+        private string Shift(string message, CryptType cryptType)
         {
             var output = new StringBuilder();
+            var alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
 
-            (var alphabetAsList, var addedAsList) = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
+            PrependAddedCharactersForEncryption(cryptType, output, alphabet.AddedCharacters);
 
-            PrependAddedCharactersForEncryption(cryptType, output, addedAsList);
-
-            output.Append(ShiftMessage(message, alphabetAsList, backgroundWorker, cryptType, addedAsList.Count));
+            output.Append(ShiftMessage(message, alphabet));
 
             return output.ToString();
         }
-        private string ShiftMessage(string message, List<object> alphabetAsList, BackgroundWorker? backgroundWorker, CryptType cryptType, int addedCharactersCount)
+        private string ShiftMessage(string message, Alphabet alphabet)
         {
-            List<object> messageAsList = ConvertMessageToList(message, cryptType, addedCharactersCount);
+            List<object> messageAsList = ConvertMessageToList(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
 
             for (int passCount = 0; passCount < _randoms.Count; passCount++)
             {
-                ShiftOnePass(messageAsList, alphabetAsList, backgroundWorker, passCount, cryptType);
+                ShiftOnePass(messageAsList, alphabet, passCount);
             }
 
             StringBuilder output = ConvertListToStringBuilder(messageAsList);
 
             return output.ToString();
         }
-        private void ShiftOnePass(List<object> messageAsList, List<object> alphabetAsList, BackgroundWorker? backgroundWorker, int passCount, CryptType cryptType)
+        private void ShiftOnePass(List<object> messageAsList, Alphabet alphabet, int passCount)
         {
             for (int i = 0; i < messageAsList.Count; i++)
             {
-                int shiftAmount = _randoms[passCount].Next(alphabetAsList.Count);
-                if (cryptType == CryptType.Decryption) shiftAmount *= -1;
-                messageAsList[i] = ShiftTextElement(messageAsList[i], alphabetAsList, shiftAmount);
+                int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
+                if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
+                messageAsList[i] = ShiftTextElement(messageAsList[i], alphabet.AllCharacters, shiftAmount);
             }
         }
         private static object ShiftTextElement(object textElement, List<object> alphabetAsList, int shiftAmount)
