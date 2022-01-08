@@ -4,13 +4,13 @@ A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from w
 ## Example 1:  
 
 **Message**:  
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father.
 
 **CipherText** *with passphrase "password"*:  
-"tkcmGG8H.QFQ+5tSfMukINWowdVHIm7L?3U4t0Ok*+g9&'K9#X3x"1KA0:%jLz2R#G:LoXffPii(7OJA;wSJAR,SOlr@XA5#kFVWF8VGZ%(9rc+6T4sp6ZC5Mey08(DsCxOl#Tl% z+u:%+@(IMOe4qW#Koe1Z@DpU2AA""?2'1O!Fg3T4xtRxz.*OmY%(Ps7R,u4xYnXuwzbQ6 qLEJtVfaMWJQ"A-5tVbp,T?qvo;cJnksEOvN)ZYh1x?e%$zcGRoY+Q$8DR'p%CJRGAwOz6*S65FZkx5D0Dvl#pqrXSjA4 O-#Kt"8+$1%Nas+tZG$Xoj2F1u"pi"Hw$+C,9c&9X:zNB0ugB*(6EJ63BT#hr5gSm@+za6e"ECdjFx*9"k7gIay:pZQGbZL(wyVd0FdJe-LjUL'Lt*hGvi+frJ$UZ9BF*g:)!#Ow'F&YV,
+$m*pe4M ty ,QU1fTfBu*8Y8)hR!QNdSo;S2s-W )%$j)@hGZXb,#!Q?A1)&jVleRVF6ztBGes&$(..iris6ZeKZL.38D0h$"#UVSF8.zSR"5W$8!LL)t?.EsQRVx?(JsypOD**t+0+'1;3V@dd .:5mR#xn;pW!hMQWPqU775E?N42dz1.p+HQFbdj5Q(mjo Ntys9,pVyg+:$"SNZWJKO#hf-z+eEW"wW;H,Slf.R!MM51H.nxA7C$p1D$XC)#1DQ90bN0*A66l#D
 
 **CipherText** *with passphrase "Password"*:  
-+-AEc1!4:o3AcqRW #7OX)-9osD2WaV-ApTtR, YtIod@PBR2T,Oy9?nS5r)d?eRO'Q+,Aj8 0vlnxN(.kMf'&?9,3X-l,SMYMH?d9QBRle5PzM1"Mp;D$h3FW%IzRC)n6XK44PqFo5'.tlk00l oXx3KVbRSv7xI Rfg,&k9jaGBGsCWvfqw7l4R'Tc'ULCS8D76L1$!-XO3@maZL(l3J#$4cvz)hIwWUa!#2E*SDHS:gmcMnSr66z8.ZO7oN!7CM)rg!h@pZ&%nXGRfn#;6M.fqb!owdyRVM7bI@1YM4ef5s$O)e?U9dpj3p:k%9SoYSNyG-psTcPsMNaelI1wV10RNQsDtT ?8"Ljg9F$)5h%1lbhJsv1Y?"(ebVL;87'YVJmCuzz+?V AZ;:bFS*7i-e%1kw+NM"7h0B!519t,)uBVoPf.qWpn%w3AI78
+g@nR$&)634$7c,NI.#WOKrk@)d:@5fM?duIBfS6)aGkgdLVNSuqX$82QS6u@d$(#OPP'0F'g9Dj*nB S2DItd36W5*mQW"z4RvW?-9QRKe01L4EI$E&RHbt5@0I5&WC*n2PK#8#yIeE5pu(70?9fLHyZFV:QD,4qmeN-v24c3mRSAwPzsDmibXE  #oV8P7&O.zo -ki'*1yC8TjH8eD30"..Y1pCzM(6Xb2l2DyH( Oyj4T1UrtTTce(ZU:7).B+J(,i:eYHWl!jVH
 
 ## Example 2:  
 
