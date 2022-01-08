@@ -21,9 +21,7 @@ namespace Krypt2Library
             }
         }
 
-        
-
-    public Alphabet(string alphabet, CryptType cryptType)
+        public Alphabet(string alphabet, CryptType cryptType)
         {
             AllCharacters = StringToListOfObjects(alphabet);
             AddedCharacters = new List<object>();
