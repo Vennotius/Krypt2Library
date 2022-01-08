@@ -34,47 +34,25 @@ namespace Krypt2Library
         }
         private string ShiftMessage(string message, Alphabet alphabet)
         {
-            List<object> messageAsList = ConvertMessageToList(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
+            MessageAsIndexArray messageAsIndexArray = ConvertMessageToIndexArray(message, alphabet);
 
             for (int passCount = 0; passCount < _randoms.Count; passCount++)
             {
-                ShiftOnePass(messageAsList, alphabet, passCount);
+                ShiftOnePass(messageAsIndexArray, alphabet, passCount);
             }
 
-            StringBuilder output = ConvertListToStringBuilder(messageAsList);
+            StringBuilder output = ConvertListToStringBuilder(messageAsIndexArray.MessageAsList);
 
             return output.ToString();
         }
-        private void ShiftOnePass(List<object> messageAsList, Alphabet alphabet, int passCount)
+        private void ShiftOnePass(MessageAsIndexArray message, Alphabet alphabet, int passCount)
         {
-            for (int i = 0; i < messageAsList.Count; i++)
+            for (int i = 0; i < message.MessageArray.Length; i++)
             {
                 int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
-                messageAsList[i] = ShiftTextElement(messageAsList[i], alphabet, shiftAmount);
+                message.MessageArray[i] += shiftAmount;
             }
-        }
-        private static object ShiftTextElement(object textElement, Alphabet alphabet, int shiftAmount)
-        {
-            int startIndex = alphabet.AllCharacters.IndexOf(textElement);
-            int shiftedIndex = WrapperForShift(startIndex, shiftAmount, alphabet.AllCharacters.Count);
-            return alphabet.AllCharacters[shiftedIndex];
-        }
-        private static int WrapperForShift(int inputIndex, int shiftAmount, int length)
-        {
-            var output = inputIndex + shiftAmount;
-
-            while (output > length - 1)
-            {
-                output -= length;
-            }
-
-            while (output < 0)
-            {
-                output += length;
-            }
-
-            return output;
         }
 
 
@@ -88,7 +66,15 @@ namespace Krypt2Library
                 }
             }
         }
-        private static List<object> ConvertMessageToList(string message, CryptType cryptType, int addedCharactersCount)
+        private static MessageAsIndexArray ConvertMessageToIndexArray(string message, Alphabet alphabet)
+        {
+            List<object> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
+            
+            var output = new MessageAsIndexArray(messageAsList, alphabet);
+            
+            return output;
+        }
+        private static List<object> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
         {
             var messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
             if (cryptType == CryptType.Decryption)

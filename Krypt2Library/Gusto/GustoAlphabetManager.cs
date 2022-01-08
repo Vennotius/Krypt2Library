@@ -32,11 +32,13 @@ namespace Krypt2Library
         }
         private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, List<object> messageAsList)
         {
+            var alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
+
             foreach (var textElement in messageAsList)
             {
-                if (alphabet.AddedCharacters.Contains(textElement) == false)
+                if (alphabet.AddedCharacters.Contains(textElement) == false)  
                 {
-                    if (alphabet.AllCharacters.Contains(textElement) == false)
+                    if (alphabetAsHashSet.Contains(textElement) == false) 
                     {
                         alphabet.AddedCharacters.Add(textElement);
                     }

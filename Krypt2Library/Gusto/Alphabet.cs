@@ -7,8 +7,23 @@ namespace Krypt2Library
         public List<object> AllCharacters { get; set; }
         public List<object> AddedCharacters { get; set; }
         public CryptType CryptType { get; init; }
+        public Dictionary<object, int> AlphabetIndexDictionary 
+        { 
+            get
+            {
+                var output = new Dictionary<object, int>();
+                for (int i = 0; i < AllCharacters.Count; i++)
+                {
+                    output[AllCharacters[i]] = i;
+                }
 
-        public Alphabet(string alphabet, CryptType cryptType)
+                return output;
+            }
+        }
+
+        
+
+    public Alphabet(string alphabet, CryptType cryptType)
         {
             AllCharacters = StringToListOfObjects(alphabet);
             AddedCharacters = new List<object>();
