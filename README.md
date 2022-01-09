@@ -1,6 +1,8 @@
 # Krypt2Library
 A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from which 8 seeded Random's are generated. These, each in its own pass, are used to deterministically calculate the final shift value of each character in sequence.
 
+# Examples
+
 ## Example 1:  
 
 **Message**:  
@@ -23,6 +25,8 @@ Ef#+aZyTpREYN?UfByum)1NKkdu!Fu-PH.KQL-J7k$()17!CW''Zm7I1TI?@CIl@N!mZzaUy"L&#5Q7B
 **CipherText** *with passphrase "Password"*:  
 Q!jA()6PZ$RT-cGITmPGEk-Xk-U@U"I wnApyST:tFg:?xzJPNcKn1UE.Nn:w ( K8w90mg+RWj&-g6.YiEc8#TWT#
 
+# General Information
+
 ## Use of TextElements instead of Characters
 
 Certain Unicode characters are composed of more than one character. Because of this, if one iterates through characters, swapping them as one goes, one could end up splitting up characters which then causes problems when saving result to file for example. Therefore, this cipher iterates on TextElements instead.
@@ -32,3 +36,17 @@ See https://docs.microsoft.com/en-us/dotnet/api/system.globalization.stringinfo.
 ## Alphabet Extension
 
 A standard alphabet is used. When encrypting a plaintext message, if characters are discovered that are not contained in the standard alphabet, they are added to it. Those characters are then sorted and prepended to the resulting CipherText. On decryption they can be read and the alphabet that was used for encryption is thereby reconstructed.
+
+## Use of SHA & Randoms
+
+Using a passphrase to determine the shift amount of each character was considered, but the main problems are firstly that the shift values will repeat because the passphrase is likely to be much shorter than the message, and secondly that a partially correct passphrase of the correct length could yield partial decryption. For this reason Random.cs is used. A seeded Random can extend indefinitely and is deterministinc, meaning that one can reproduce the exact pseudo-random sequence using the same seed. The seed used for Random.cs is an Int32. This means that a SHA256 hash can be used to construct 8x Int32 seeds. One tiny change to the passphrase and the seeds change drastically.
+
+Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit hash yields hash collisions much too often. Using 8 randoms, means taking advantage of the full hash, and every random contributes to each character's final shift amount.
+
+# How secure is this cipher?
+
+I am not an expert, but I do think that it is secure. If anyone wants to prove that they can break the cipher, I would welcome a successful attempt, as it would be an opportunity to improve and to learn something of value.
+
+## Under Construction
+
+This library is under construction, and because of that there may be bits of code that remain for reference, or because an experimental cipher has become the main cipher and it just hasn't been removed yet. At the beginning of 2022 *Gusto.cs* is the main cipher which should be used. See commit history for changes which have not yet made its into this document.
