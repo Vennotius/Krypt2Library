@@ -22,3 +22,13 @@ Ef#+aZyTpREYN?UfByum)1NKkdu!Fu-PH.KQL-J7k$()17!CW''Zm7I1TI?@CIl@N!mZzaUy"L&#5Q7B
 
 **CipherText** *with passphrase "Password"*:  
 Q!jA()6PZ$RT-cGITmPGEk-Xk-U@U"I wnApyST:tFg:?xzJPNcKn1UE.Nn:w ( K8w90mg+RWj&-g6.YiEc8#TWT#
+
+## Use of TextElements instead of Characters
+
+Certain Unicode characters are composed of more than one character. Because of this, if one iterates through characters, swapping them as one goes, one could end up splitting up characters which then causes problems when saving result to file for example. Therefore, this cipher iterates on TextElements instead.
+
+See https://docs.microsoft.com/en-us/dotnet/api/system.globalization.stringinfo.gettextelementenumerator?view=net-6.0 for more information. 
+
+## Alphabet Extension
+
+A standard alphabet is used. When encrypting a plaintext message, if characters are discovered that are not contained in the standard alphabet, they are added to it. Those characters are then sorted and prepended to the resulting CipherText. On decryption they can be read and the alphabet that was used for encryption is thereby reconstructed.
