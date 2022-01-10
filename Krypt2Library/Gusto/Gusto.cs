@@ -6,6 +6,7 @@ namespace Krypt2Library
     public class Gusto : ICipher
     {
         private List<Random> _randoms = new();
+        private List<RandomContainer> _randomContainers = new();
 
         public string Encrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
@@ -13,6 +14,9 @@ namespace Krypt2Library
 
             return Shift(message, CryptType.Encryption);
         }
+
+        
+
         public string Decrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
@@ -25,6 +29,7 @@ namespace Krypt2Library
         {
             var output = new StringBuilder();
             var alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
+            PopulateRandomContainers(message.Length, alphabet.AllCharacters.Count);
 
             PrependAddedCharactersIfEncryption(cryptType, output, alphabet.AddedCharacters);
 
@@ -49,7 +54,8 @@ namespace Krypt2Library
         {
             for (int i = 0; i < message.MessageArray.Length; i++)
             {
-                int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
+                int shiftAmount = _randomContainers[passCount].ShiftAmounts[i];
+                //int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
                 message.MessageArray[i] += shiftAmount;
             }
@@ -96,6 +102,13 @@ namespace Krypt2Library
             }
 
             return output;
+        }
+        private void PopulateRandomContainers(int messageLength, int alphabetCount)
+        {
+            Parallel.ForEach(_randoms, random =>
+            {
+                _randomContainers.Add(new RandomContainer(random, messageLength, alphabetCount));
+            });
         }
     }
 }
