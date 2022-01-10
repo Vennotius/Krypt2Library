@@ -1,24 +1,26 @@
-﻿namespace Krypt2Library
+﻿using System.Text;
+
+namespace Krypt2Library
 {
     internal class MessageAsIndexArray
     {
-        public int[] MessageArray { get; set; }
-        public Alphabet Alphabet { get; set; }
-        public List<object> MessageAsList
+        public int[] IndexArray { get; private set; }
+        private Alphabet _alphabet;
+        public List<object> MessageAsListOfTextElements
         {
             get
             {
-                return MessageToList(MessageArray, Alphabet);
+                return MessageToListOfTextElements(IndexArray, _alphabet);
             }
         }
         
         public MessageAsIndexArray(List<object> messageAsList, Alphabet alphabet)
         {
-            Alphabet = alphabet;
-            MessageArray = ConvertToArray(messageAsList, Alphabet);
+            _alphabet = alphabet;
+            IndexArray = ConvertToIndexArray(messageAsList, _alphabet);
         }
 
-        private List<object> MessageToList(int[] messageArray, Alphabet alphabet)
+        private List<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
         {
             var output = new List<object>();
 
@@ -29,7 +31,7 @@
 
             return output;
         }
-        private static int[] ConvertToArray(List<object> messageAsList, Alphabet alphabet)
+        private static int[] ConvertToIndexArray(List<object> messageAsList, Alphabet alphabet)
         {
             var output = new int[messageAsList.Count];
 

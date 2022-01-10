@@ -41,17 +41,17 @@ namespace Krypt2Library
                 ShiftOnePass(messageAsIndexArray, alphabet, passCount);
             }
 
-            StringBuilder output = ConvertListToStringBuilder(messageAsIndexArray.MessageAsList);
+            StringBuilder output = ConvertListOfTextElementsToStringBuilder(messageAsIndexArray.MessageAsListOfTextElements);
 
             return output.ToString();
         }
         private void ShiftOnePass(MessageAsIndexArray message, Alphabet alphabet, int passCount)
         {
-            for (int i = 0; i < message.MessageArray.Length; i++)
+            for (int i = 0; i < message.IndexArray.Length; i++)
             {
                 int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
-                message.MessageArray[i] += shiftAmount;
+                message.IndexArray[i] += shiftAmount;
             }
         }
 
@@ -87,7 +87,18 @@ namespace Krypt2Library
 
             return messageAsList;
         }
-        private static StringBuilder ConvertListToStringBuilder(List<object> messageAsList)
+        private static StringBuilder ConvertListOfTextElementsToStringBuilder(List<object> messageAsList)
+        {
+            var output = new StringBuilder();
+            foreach (var textElement in messageAsList)
+            {
+                output.Append(textElement);
+            }
+
+            return output;
+        }
+
+        private static StringBuilder ConvertListOfTextElementsToStringBuilder(object[] messageAsList)
         {
             var output = new StringBuilder();
             foreach (var textElement in messageAsList)
