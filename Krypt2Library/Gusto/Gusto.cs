@@ -97,16 +97,5 @@ namespace Krypt2Library
 
             return output;
         }
-
-        private static StringBuilder ConvertListOfTextElementsToStringBuilder(object[] messageAsList)
-        {
-            var output = new StringBuilder();
-            foreach (var textElement in messageAsList)
-            {
-                output.Append(textElement);
-            }
-
-            return output;
-        }
     }
 }

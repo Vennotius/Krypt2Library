@@ -69,19 +69,18 @@
             // Including the division at the end gives us significantly improved random number distribution.
             InternalSample() * (1.0 / int.MaxValue);
 
-        public override int Next() => InternalSample();
+        //public override int Next() => InternalSample();
 
         public override int Next(int maxValue) => (int)(Sample() * maxValue);
 
         // Not currently used, but is included. (20220101)
-        public override int Next(int minValue, int maxValue)
-        {
-            long range = (long)maxValue - minValue;
-            return range <= int.MaxValue ?
-                (int)(Sample() * range) + minValue :
-                (int)((long)(GetSampleForLargeRange() * range) + minValue);
-        }
-
+        //public override int Next(int minValue, int maxValue)
+        //{
+        //    long range = (long)maxValue - minValue;
+        //    return range <= int.MaxValue ?
+        //        (int)(Sample() * range) + minValue :
+        //        (int)((long)(GetSampleForLargeRange() * range) + minValue);
+        //}
 
         private int InternalSample()
         {
