@@ -6,7 +6,7 @@
     /// possible to reproduce in other languages if one has the source for this.
     /// It works exactly the same as Random.cs, but mostly only includes what is used in the library.
     /// </summary>
-    public class OurRandom : Random
+    internal class OurRandom : Random
     {
         /// <summary>Reference to the <see cref="Random"/> containing this implementation instance.</summary>
         /// <remarks>Used to ensure that any calls to other virtual members are performed using the Random-derived instance, if one exists.</remarks>

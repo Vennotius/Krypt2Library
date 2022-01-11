@@ -25,7 +25,7 @@ namespace Krypt2Library
             var output = new StringBuilder();
             var alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
 
-            PrependAddedCharactersIfEncryption(cryptType, output, alphabet.AddedCharacters);
+            PrependAddedCharactersIfEncrypting(cryptType, output, alphabet.AddedCharacters);
 
             output.Append(ShiftMessage(message, alphabet));
 
@@ -55,7 +55,7 @@ namespace Krypt2Library
         }
 
 
-        private static void PrependAddedCharactersIfEncryption(CryptType cryptType, StringBuilder output, List<object> addedAsList)
+        private static void PrependAddedCharactersIfEncrypting(CryptType cryptType, StringBuilder output, List<object> addedAsList)
         {
             if (cryptType == CryptType.Encryption)
             {
@@ -76,6 +76,13 @@ namespace Krypt2Library
         private static List<object> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
         {
             var messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
+
+            RemovePrependedCharactersIfDecrypting(cryptType, addedCharactersCount, messageAsList);
+
+            return messageAsList;
+        }
+        private static void RemovePrependedCharactersIfDecrypting(CryptType cryptType, int addedCharactersCount, List<object> messageAsList)
+        {
             if (cryptType == CryptType.Decryption)
             {
                 for (int i = 0; i < addedCharactersCount; i++)
@@ -83,9 +90,8 @@ namespace Krypt2Library
                     messageAsList.RemoveAt(0);
                 }
             }
-
-            return messageAsList;
         }
+
         private static StringBuilder ConvertListOfTextElementsToStringBuilder(List<object> messageAsList)
         {
             var output = new StringBuilder();

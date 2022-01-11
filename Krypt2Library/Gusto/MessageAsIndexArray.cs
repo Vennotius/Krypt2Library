@@ -2,13 +2,10 @@
 {
     internal class MessageAsIndexArray
     {
-        public int[] IndexArray { get; private set; }
-        public List<object> MessageAsListOfTextElements
+        internal int[] IndexArray { get; init; }
+        internal List<object> MessageAsListOfTextElements
         {
-            get
-            {
-                return MessageToListOfTextElements(IndexArray, _alphabet);
-            }
+            get => MessageToListOfTextElements(IndexArray, _alphabet);
         }
 
         private readonly Alphabet _alphabet;

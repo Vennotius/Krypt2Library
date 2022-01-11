@@ -1,6 +1,6 @@
 ﻿namespace Krypt2Library
 {
-    public class InvalidCipherException : Exception
+    internal class InvalidCipherException : Exception
     {
         public InvalidCipherException(string? message) : base(message)
         {

@@ -6,8 +6,7 @@ namespace Krypt2Library
 {
     public class Kryptor
     {
-        public ICipher Cipher { get; set; }
-        public BackgroundWorker? BackgroundWorker { get; }
+        public ICipher Cipher { get; init; }
 
         public Kryptor(ICipher cipher)
         {
