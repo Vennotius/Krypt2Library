@@ -7,13 +7,13 @@ namespace Krypt2Library
     {
         private List<Random> _randoms = new();
 
-        public string Encrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
+        public string Encrypt(string passphrase, string message)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Encryption);
 
             return Shift(message, CryptType.Encryption);
         }
-        public string Decrypt(string passphrase, string message, BackgroundWorker? backgroundWorker)
+        public string Decrypt(string passphrase, string message)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
 

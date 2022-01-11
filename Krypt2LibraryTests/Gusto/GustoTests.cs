@@ -15,7 +15,7 @@ namespace Krypt2Library.Tests
             var gusto = new Gusto();
             var passphrase = "HereWeTest";
 
-            var cipherText = gusto.Encrypt(passphrase, message, null);
+            var cipherText = gusto.Encrypt(passphrase, message);
 
             Assert.AreEqual(expectedCipherText, cipherText);
         }
@@ -37,11 +37,11 @@ namespace Krypt2Library.Tests
 
             var passphrase = "HereWeAlwaysTestBecauseWeDistrustOurGuesses";
 
-            var cipherText = gusto.Encrypt(passphrase, message, null);
+            var cipherText = gusto.Encrypt(passphrase, message);
 
             Assert.AreNotEqual(message, cipherText);
 
-            var decryptedText = gusto.Decrypt(passphrase, cipherText, null);
+            var decryptedText = gusto.Decrypt(passphrase, cipherText);
 
             Assert.AreEqual(message, decryptedText);
         }
