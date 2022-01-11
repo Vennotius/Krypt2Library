@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Krypt2Library
+﻿namespace Krypt2Library
 {
     internal class Alphabet
     {

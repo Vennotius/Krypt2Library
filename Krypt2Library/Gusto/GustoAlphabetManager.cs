@@ -8,15 +8,12 @@ namespace Krypt2Library
 
         internal static Alphabet InitializeAlphabet(CryptType cryptType, string message)
         {
-            switch (cryptType)
+            return cryptType switch
             {
-                case CryptType.Encryption:
-                    return ExtendAlphabetForEncyption(message);
-                case CryptType.Decryption:
-                    return ExtendAlphabetForDecyption(message);
-                default:
-                    throw new Exception("Invalid CryptType.");
-            }
+                CryptType.Encryption => ExtendAlphabetForEncyption(message),
+                CryptType.Decryption => ExtendAlphabetForDecyption(message),
+                _ => throw new Exception("Invalid CryptType."),
+            };
         }
 
         private static Alphabet ExtendAlphabetForEncyption(string message)
