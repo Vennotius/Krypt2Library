@@ -47,7 +47,3 @@ Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit
 # How secure is this cipher?
 
 I am not an expert, but I do think that it is secure. If anyone wants to prove that they can break the cipher, I would welcome a successful attempt, as it would be an opportunity to improve and to learn something of value.
-
-# Under Construction
-
-This library is under construction, and because of that there may be bits of code that remain for reference, or because an experimental cipher has become the main cipher and it just hasn't been removed yet. At the beginning of 2022 *Gusto.cs* is the main cipher which should be used. See commit history for changes which have not yet made its into this document.
