@@ -22,17 +22,17 @@ namespace Krypt2Library
         private static Alphabet ExtendAlphabetForEncyption(string message)
         {
             var alphabet = new Alphabet(_standardAlphabet, CryptType.Encryption);
-            var messageAsList = StringToListOfObjects(message);
 
-            ExtractAdditionalCharactersFromMessage(alphabet, messageAsList);
+            ExtractAdditionalCharactersFromMessage(alphabet, message);
 
             AppendAddedToAlphabet(alphabet);
 
             return alphabet;
         }
-        private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, List<object> messageAsList)
+        private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, string message)
         {
             var alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
+            var messageAsList = StringToListOfObjects(message);
 
             foreach (var textElement in messageAsList)
             {
