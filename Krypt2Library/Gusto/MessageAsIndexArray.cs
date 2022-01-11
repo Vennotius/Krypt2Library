@@ -1,11 +1,9 @@
-﻿using System.Text;
-
-namespace Krypt2Library
+﻿namespace Krypt2Library
 {
     internal class MessageAsIndexArray
     {
         public int[] IndexArray { get; private set; }
-        private Alphabet _alphabet;
+        private readonly Alphabet _alphabet;
         public List<object> MessageAsListOfTextElements
         {
             get
@@ -13,14 +11,14 @@ namespace Krypt2Library
                 return MessageToListOfTextElements(IndexArray, _alphabet);
             }
         }
-        
+
         public MessageAsIndexArray(List<object> messageAsList, Alphabet alphabet)
         {
             _alphabet = alphabet;
             IndexArray = ConvertToIndexArray(messageAsList, _alphabet);
         }
 
-        private List<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
+        private static List<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
         {
             var output = new List<object>();
 

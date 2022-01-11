@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Krypt2Library
+﻿namespace Krypt2Library
 {
     public interface ICipher
     {

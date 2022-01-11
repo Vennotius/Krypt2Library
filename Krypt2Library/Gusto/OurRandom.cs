@@ -114,23 +114,5 @@
 
             return retVal;
         }
-
-        private double GetSampleForLargeRange()
-        {
-            // The distribution of the double returned by Sample is not good enough for a large range.
-            // If we use Sample for a range [int.MinValue..int.MaxValue), we will end up getting even numbers only.
-            int result = InternalSample();
-
-            // We can't use addition here: the distribution will be bad if we do that.
-            if (InternalSample() % 2 == 0) // decide the sign based on second sample
-            {
-                result = -result;
-            }
-
-            double d = result;
-            d += int.MaxValue - 1; // get a number in range [0..2*int.MaxValue-1)
-            d /= 2u * int.MaxValue - 1;
-            return d;
-        }
     }
 }

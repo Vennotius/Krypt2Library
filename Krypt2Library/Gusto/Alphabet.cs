@@ -7,8 +7,8 @@ namespace Krypt2Library
         public List<object> AllCharacters { get; private set; }
         public List<object> AddedCharacters { get; private set; }
         public CryptType CryptType { get; init; }
-        public Dictionary<object, int> AlphabetIndexDictionary 
-        { 
+        public Dictionary<object, int> AlphabetIndexDictionary
+        {
             get
             {
                 var output = new Dictionary<object, int>();

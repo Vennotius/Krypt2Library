@@ -36,9 +36,9 @@ namespace Krypt2Library
 
             foreach (var textElement in messageAsList)
             {
-                if (alphabet.AddedCharacters.Contains(textElement) == false)  
+                if (alphabet.AddedCharacters.Contains(textElement) == false)
                 {
-                    if (alphabetAsHashSet.Contains(textElement) == false) 
+                    if (alphabetAsHashSet.Contains(textElement) == false)
                     {
                         alphabet.AddedCharacters.Add(textElement);
                     }
@@ -71,7 +71,7 @@ namespace Krypt2Library
             {
                 // Added characters appear in the very beginning of the cipherText.
                 // Therefore if we hit a known character, we are done extracting addtional characters.
-                if (alphabet.AllCharacters.Contains(textElement) == true) break; 
+                if (alphabet.AllCharacters.Contains(textElement) == true) break;
 
                 alphabet.AddedCharacters.Add(textElement);
                 alphabet.AllCharacters.Add(textElement);

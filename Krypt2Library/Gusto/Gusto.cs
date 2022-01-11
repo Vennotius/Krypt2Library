@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using System.Text;
+﻿using System.Text;
 
 namespace Krypt2Library
 {
     public class Gusto : ICipher
     {
-        private List<Random> _randoms = new();
+        private List<Random> _randoms;
 
         public string Encrypt(string passphrase, string message)
         {
@@ -69,9 +68,9 @@ namespace Krypt2Library
         private static MessageAsIndexArray ConvertMessageToIndexArray(string message, Alphabet alphabet)
         {
             List<object> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
-            
+
             var output = new MessageAsIndexArray(messageAsList, alphabet);
-            
+
             return output;
         }
         private static List<object> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
