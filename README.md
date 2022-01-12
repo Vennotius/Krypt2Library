@@ -47,3 +47,7 @@ Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit
 # How secure is this cipher?
 
 I am not an expert, but I do think that it is secure. If anyone wants to prove that they can break the cipher, I would welcome a successful attempt, as it would be an opportunity to improve and to learn something of value.
+
+# Console Application
+
+See [this repository](https://github.com/Vennotius/KryptConsole) for a console application that uses this library.
