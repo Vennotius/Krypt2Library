@@ -7,7 +7,7 @@ A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from w
 
 Certain Unicode characters are composed of more than one character. Because of this, if one iterates through characters, swapping them as one goes, one could end up splitting up characters which then causes problems when saving result to file for example. Therefore, this cipher iterates on TextElements instead.
 
-See https://docs.microsoft.com/en-us/dotnet/api/system.globalization.stringinfo.gettextelementenumerator?view=net-6.0 for more information. 
+See https://docs.microsoft.com/en-us/dotnet/api/system.string?view=net-6.0#strings-and-indexes for more information. 
 
 ## Alphabet Extension
 
@@ -47,3 +47,7 @@ Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit
 # How secure is this cipher?
 
 I am not an expert, but I do think that it is secure. If anyone wants to prove that they can break the cipher, I would welcome a successful attempt, as it would be an opportunity to improve and to learn something of value.
+
+# Console Application
+
+See [this repository](https://github.com/Vennotius/KryptConsole) for a console application that uses this library.
