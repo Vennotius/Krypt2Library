@@ -24,8 +24,8 @@ Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit
 ## English Text:  
 
 **Message**:  
-```Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father.
-```
+>Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father.
+
 
 **CipherText** *with passphrase "password"*:  
 ```
@@ -40,9 +40,8 @@ g@nR$&)634$7c,NI.#WOKrk@)d:@5fM?duIBfS6)aGkgdLVNSuqX$82QS6u@d$(#OPP'0F'g9Dj*nB S
 ## Repeating Character:  
 
 **Message**:  
-```
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-```
+> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
 
 **CipherText** *with passphrase "password"*:  
 ```
