@@ -69,13 +69,13 @@ namespace Krypt2Library
         {
             List<object> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
 
-            var output = new MessageAsIndexArray(messageAsList, alphabet);
+            MessageAsIndexArray output = new MessageAsIndexArray(messageAsList, alphabet);
 
             return output;
         }
         private static List<object> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
         {
-            var messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
+            List<object> messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
 
             RemovePrependedCharactersIfDecrypting(cryptType, addedCharactersCount, messageAsList);
 

@@ -18,7 +18,7 @@ namespace Krypt2Library
 
         private static Alphabet ExtendAlphabetForEncyption(string message)
         {
-            var alphabet = new Alphabet(_standardAlphabet, CryptType.Encryption);
+            Alphabet alphabet = new(_standardAlphabet, CryptType.Encryption);
 
             ExtractAdditionalCharactersFromMessage(alphabet, message);
 
@@ -28,24 +28,22 @@ namespace Krypt2Library
         }
         private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, string message)
         {
-            var alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
-            var messageAsList = StringToListOfObjects(message);
+            HashSet<object> alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
+            List<object> messageAsList = StringToListOfObjects(message);
 
-            foreach (var textElement in messageAsList)
+            foreach (object textElement in messageAsList)
             {
-                if (alphabet.AddedCharacters.Contains(textElement) == false)
-                {
-                    if (alphabetAsHashSet.Contains(textElement) == false)
-                    {
-                        alphabet.AddedCharacters.Add(textElement);
-                    }
-                }
+                if (alphabet.AddedCharacters.Contains(textElement) || 
+                    alphabetAsHashSet.Contains(textElement)) continue;
+
+                alphabet.AddedCharacters.Add(textElement);
             }
         }
         private static void AppendAddedToAlphabet(Alphabet alphabet)
         {
             alphabet.AddedCharacters.Sort();  // For security reasons.
-            foreach (var item in alphabet.AddedCharacters)
+
+            foreach (object item in alphabet.AddedCharacters)
             {
                 alphabet.AllCharacters.Add(item);
             }
@@ -53,8 +51,8 @@ namespace Krypt2Library
 
         private static Alphabet ExtendAlphabetForDecyption(string message)
         {
-            var alphabet = new Alphabet(_standardAlphabet, CryptType.Decryption);
-            var messageAsList = StringToListOfObjects(message);
+            Alphabet alphabet = new(_standardAlphabet, CryptType.Decryption);
+            List<object> messageAsList = StringToListOfObjects(message);
 
             ExtractAdditionalCharactersFromCipherText(alphabet, messageAsList);
 
@@ -64,11 +62,11 @@ namespace Krypt2Library
         }
         private static void ExtractAdditionalCharactersFromCipherText(Alphabet alphabet, List<object> messageAsList)
         {
-            foreach (var textElement in messageAsList)
+            foreach (object textElement in messageAsList)
             {
                 // Added characters appear in the very beginning of the cipherText.
                 // Therefore if we hit a known character, we are done extracting addtional characters.
-                if (alphabet.AllCharacters.Contains(textElement) == true) break;
+                if (alphabet.AllCharacters.Contains(textElement)) break;
 
                 alphabet.AddedCharacters.Add(textElement);
                 alphabet.AllCharacters.Add(textElement);
@@ -79,17 +77,17 @@ namespace Krypt2Library
             // If, after the initial added characters in the CipherText, unknown characters are found, the CipherText is invalid.
             for (int i = alphabet.AddedCharacters.Count; i < messageAsList.Count; i++)
             {
-                if (alphabet.AllCharacters.Contains(messageAsList[i]) == false && alphabet.AddedCharacters.Contains(messageAsList[i]) == false)
-                {
-                    throw new InvalidCipherException("Invalid CipherText");
-                }
+                if (alphabet.AllCharacters.Contains(messageAsList[i]) || 
+                    alphabet.AddedCharacters.Contains(messageAsList[i])) continue;
+
+                throw new InvalidCipherException("Invalid CipherText");
             }
         }
 
 
         internal static List<object> StringToListOfObjects(string input)
         {
-            var output = new List<object>();
+            List<object> output = new();
 
             TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(input);
 

@@ -18,9 +18,9 @@
 
         private static List<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
         {
-            var output = new List<object>();
+            List<object> output = new();
 
-            foreach (var item in messageArray)
+            foreach (int item in messageArray)
             {
                 output.Add(alphabet.AllCharacters[WrapperForShift(0, item, alphabet.AllCharacters.Count)]);
             }
@@ -29,9 +29,9 @@
         }
         private static int[] ConvertToIndexArray(List<object> messageAsList, Alphabet alphabet)
         {
-            var output = new int[messageAsList.Count];
+            int[] output = new int[messageAsList.Count];
 
-            var alphabetIndex = alphabet.AlphabetIndexDictionary;
+            Dictionary<object, int> alphabetIndex = alphabet.GetAlphabetIndexDictionary();
 
             for (int i = 0; i < messageAsList.Count; i++)
             {
@@ -42,17 +42,11 @@
         }
         private static int WrapperForShift(int inputIndex, int shiftAmount, int length)
         {
-            var output = inputIndex + shiftAmount;
+            int output = inputIndex + shiftAmount;
 
-            while (output > length - 1)
-            {
-                output -= length;
-            }
+            while (output > length - 1) output -= length;
 
-            while (output < 0)
-            {
-                output += length;
-            }
+            while (output < 0) output += length;
 
             return output;
         }
