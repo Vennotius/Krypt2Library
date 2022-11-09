@@ -37,7 +37,7 @@ namespace Krypt2Library.Tests
             Assert.IsTrue(enc.Length >= rnd.Length * 0.99);
         }
 
-        private string GenerateRandomString(int length, string standardAlphabet)
+        private static string GenerateRandomString(int length, string standardAlphabet)
         {
             var sb = new StringBuilder();
             var random = new Random();
@@ -66,17 +66,13 @@ namespace Krypt2Library.Tests
         {
             var bytes = Encoding.UTF8.GetBytes(str);
 
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    //msi.CopyTo(gs);
-                    CopyTo(msi, gs);
-                }
+            using var msi = new MemoryStream(bytes);
+            using var mso = new MemoryStream();
+            using var gs = new GZipStream(mso, CompressionMode.Compress);
 
-                return mso.ToArray();
-            }
+            CopyTo(msi, gs);
+
+            return mso.ToArray();
         }
     }
 }

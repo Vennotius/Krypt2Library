@@ -33,7 +33,7 @@ namespace Krypt2Library
 
             foreach (object textElement in messageAsList)
             {
-                if (alphabet.AddedCharacters.Contains(textElement) || 
+                if (alphabet.AddedCharacters.Contains(textElement) ||
                     alphabetAsHashSet.Contains(textElement)) continue;
 
                 alphabet.AddedCharacters.Add(textElement);
@@ -77,7 +77,7 @@ namespace Krypt2Library
             // If, after the initial added characters in the CipherText, unknown characters are found, the CipherText is invalid.
             for (int i = alphabet.AddedCharacters.Count; i < messageAsList.Count; i++)
             {
-                if (alphabet.AllCharacters.Contains(messageAsList[i]) || 
+                if (alphabet.AllCharacters.Contains(messageAsList[i]) ||
                     alphabet.AddedCharacters.Contains(messageAsList[i])) continue;
 
                 throw new InvalidCipherException("Invalid CipherText");

@@ -49,7 +49,10 @@ namespace Krypt2Library
             for (int i = 0; i < message.IndexArray.Length; i++)
             {
                 int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
+
+                // In case of decryption, we need to reverse the shift that happened during encryption.
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
+
                 message.IndexArray[i] += shiftAmount;
             }
         }

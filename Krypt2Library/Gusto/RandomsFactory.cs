@@ -45,11 +45,7 @@ namespace Krypt2Library
         private static byte[] GetHashByteArray(string passphrase)
         {
             byte[] hash;
-
-            using (SHA256 hashAlgorithm = SHA256.Create())
-            {
-                hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(passphrase));
-            }
+            hash = SHA256.HashData(Encoding.UTF8.GetBytes(passphrase));
 
             return hash;
         }

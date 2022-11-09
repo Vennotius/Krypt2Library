@@ -12,7 +12,7 @@
             AddedCharacters = new List<object>();
             CryptType = cryptType;
         }
-        
+
         public Dictionary<object, int> GetAlphabetIndexDictionary()
         {
             Dictionary<object, int> output = new();
