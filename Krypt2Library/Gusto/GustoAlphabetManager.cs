@@ -28,10 +28,10 @@ namespace Krypt2Library
         }
         private static void ExtractAdditionalCharactersFromMessage(Alphabet alphabet, string message)
         {
-            HashSet<object> alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
-            List<object> messageAsList = StringToListOfObjects(message);
+            HashSet<string> alphabetAsHashSet = alphabet.AllCharacters.ToHashSet();
+            List<string> messageAsList = StringToListOfObjects(message);
 
-            foreach (object textElement in messageAsList)
+            foreach (string textElement in messageAsList)
             {
                 if (alphabet.AddedCharacters.Contains(textElement) ||
                     alphabetAsHashSet.Contains(textElement)) continue;
@@ -43,16 +43,13 @@ namespace Krypt2Library
         {
             alphabet.AddedCharacters.Sort();  // For security reasons.
 
-            foreach (object item in alphabet.AddedCharacters)
-            {
-                alphabet.AllCharacters.Add(item);
-            }
+            alphabet.AllCharacters.AddRange(alphabet.AddedCharacters);
         }
 
         private static Alphabet ExtendAlphabetForDecyption(string message)
         {
             Alphabet alphabet = new(_standardAlphabet, CryptType.Decryption);
-            List<object> messageAsList = StringToListOfObjects(message);
+            List<string> messageAsList = StringToListOfObjects(message);
 
             ExtractAdditionalCharactersFromCipherText(alphabet, messageAsList);
 
@@ -60,9 +57,9 @@ namespace Krypt2Library
 
             return alphabet;
         }
-        private static void ExtractAdditionalCharactersFromCipherText(Alphabet alphabet, List<object> messageAsList)
+        private static void ExtractAdditionalCharactersFromCipherText(Alphabet alphabet, List<string> messageAsList)
         {
-            foreach (object textElement in messageAsList)
+            foreach (string textElement in messageAsList)
             {
                 // Added characters appear in the very beginning of the cipherText.
                 // Therefore if we hit a known character, we are done extracting addtional characters.
@@ -72,7 +69,7 @@ namespace Krypt2Library
                 alphabet.AllCharacters.Add(textElement);
             }
         }
-        private static void CheckForInvalidCipherText(Alphabet alphabet, List<object> messageAsList)
+        private static void CheckForInvalidCipherText(Alphabet alphabet, List<string> messageAsList)
         {
             // If, after the initial added characters in the CipherText, unknown characters are found, the CipherText is invalid.
             for (int i = alphabet.AddedCharacters.Count; i < messageAsList.Count; i++)
@@ -85,15 +82,15 @@ namespace Krypt2Library
         }
 
 
-        internal static List<object> StringToListOfObjects(string input)
+        internal static List<string> StringToListOfObjects(string input)
         {
-            List<object> output = new();
+            List<string> output = new();
 
             TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(input);
 
             while (enumerator.MoveNext())
             {
-                output.Add(enumerator.Current);
+                output.Add(enumerator.GetTextElement());
             }
 
             return output;

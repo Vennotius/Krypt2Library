@@ -73,7 +73,7 @@ namespace Krypt2Library.Tests
                 "👩🏽‍🚒"
             };
 
-            List<object> test = GustoAlphabetManager.StringToListOfObjects(input);
+            List<string> test = GustoAlphabetManager.StringToListOfObjects(input);
 
             for (int i = 0; i < expected.Count; i++)
             {

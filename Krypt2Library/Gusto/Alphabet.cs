@@ -2,20 +2,20 @@
 {
     internal class Alphabet
     {
-        public List<object> AllCharacters { get; init; }
-        public List<object> AddedCharacters { get; init; }
+        public List<string> AllCharacters { get; init; }
+        public List<string> AddedCharacters { get; init; }
         public CryptType CryptType { get; init; }
 
         public Alphabet(string alphabet, CryptType cryptType)
         {
             AllCharacters = GustoAlphabetManager.StringToListOfObjects(alphabet);
-            AddedCharacters = new List<object>();
+            AddedCharacters = new List<string>();
             CryptType = cryptType;
         }
 
-        public Dictionary<object, int> GetAlphabetIndexDictionary()
+        public Dictionary<string, int> GetAlphabetIndexDictionary()
         {
-            Dictionary<object, int> output = new();
+            Dictionary<string, int> output = new();
 
             for (int charIndex = 0; charIndex < AllCharacters.Count; charIndex++)
             {

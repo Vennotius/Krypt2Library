@@ -58,7 +58,7 @@ namespace Krypt2Library
         }
 
 
-        private static void PrependAddedCharactersIfEncrypting(CryptType cryptType, StringBuilder output, List<object> addedAsList)
+        private static void PrependAddedCharactersIfEncrypting(CryptType cryptType, StringBuilder output, List<string> addedAsList)
         {
             if (cryptType == CryptType.Encryption)
             {
@@ -70,21 +70,21 @@ namespace Krypt2Library
         }
         private static MessageAsIndexArray ConvertMessageToIndexArray(string message, Alphabet alphabet)
         {
-            List<object> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
+            List<string> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
 
             MessageAsIndexArray output = new MessageAsIndexArray(messageAsList, alphabet);
 
             return output;
         }
-        private static List<object> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
+        private static List<string> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
         {
-            List<object> messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
+            List<string> messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
 
             RemovePrependedCharactersIfDecrypting(cryptType, addedCharactersCount, messageAsList);
 
             return messageAsList;
         }
-        private static void RemovePrependedCharactersIfDecrypting(CryptType cryptType, int addedCharactersCount, List<object> messageAsList)
+        private static void RemovePrependedCharactersIfDecrypting(CryptType cryptType, int addedCharactersCount, List<string> messageAsList)
         {
             if (cryptType == CryptType.Decryption)
             {

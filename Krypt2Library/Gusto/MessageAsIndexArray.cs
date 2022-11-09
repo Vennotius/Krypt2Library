@@ -10,7 +10,7 @@
 
         private readonly Alphabet _alphabet;
 
-        public MessageAsIndexArray(List<object> messageAsList, Alphabet alphabet)
+        public MessageAsIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
             _alphabet = alphabet;
             IndexArray = ConvertToIndexArray(messageAsList, _alphabet);
@@ -27,11 +27,11 @@
 
             return output;
         }
-        private static int[] ConvertToIndexArray(List<object> messageAsList, Alphabet alphabet)
+        private static int[] ConvertToIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
             int[] output = new int[messageAsList.Count];
 
-            Dictionary<object, int> alphabetIndex = alphabet.GetAlphabetIndexDictionary();
+            Dictionary<string, int> alphabetIndex = alphabet.GetAlphabetIndexDictionary();
 
             for (int i = 0; i < messageAsList.Count; i++)
             {
@@ -40,15 +40,13 @@
 
             return output;
         }
-        private static int WrapperForShift(int inputIndex, int shiftAmount, int length)
+        public static int WrapperForShift(int startIndex, int shiftAmount, int length)
         {
-            int output = inputIndex + shiftAmount;
+            int outputIndex = startIndex + (shiftAmount % length);
 
-            while (output > length - 1) output -= length;
+            if (outputIndex < 0) outputIndex += length;
 
-            while (output < 0) output += length;
-
-            return output;
+            return outputIndex;
         }
     }
 }
