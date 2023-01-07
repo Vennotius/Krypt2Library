@@ -2,13 +2,11 @@
 {
     internal class MessageAsIndexArray
     {
+        private readonly Alphabet _alphabet;
+
         internal int[] IndexArray { get; init; }
         internal List<object> MessageAsListOfTextElements
-        {
-            get => MessageToListOfTextElements(IndexArray, _alphabet);
-        }
-
-        private readonly Alphabet _alphabet;
+            => MessageToListOfTextElements(IndexArray, _alphabet);
 
         public MessageAsIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
@@ -27,6 +25,7 @@
 
             return output;
         }
+
         private static int[] ConvertToIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
             int[] output = new int[messageAsList.Count];
@@ -40,6 +39,7 @@
 
             return output;
         }
+
         public static int WrapperForShift(int startIndex, int shiftAmount, int length)
         {
             int outputIndex = startIndex + (shiftAmount % length);

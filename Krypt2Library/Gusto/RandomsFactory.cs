@@ -7,28 +7,27 @@ namespace Krypt2Library
     {
         internal static List<Random> GetRandomsForPassphrase(string passphrase, CryptType cryptType)
         {
-            var output = new List<Random>();
+            List<Random> output = new();
 
-            foreach (var seed in GetRandomSeedsFromPassphrase(passphrase))
+            // Use Hash Array to extract seeds for created Randoms
             {
-                output.Add(new OurRandom(seed));
+                byte[] hashArray = SHA256.HashData(Encoding.UTF8.GetBytes(passphrase));
+                List<int> seeds = GetInt32SeedsFromByteArray(hashArray);
+
+                foreach (int seed in seeds)
+                {
+                    output.Add(new OurRandom(seed));
+                }
             }
 
             if (cryptType == CryptType.Decryption) output.Reverse();
 
             return output;
         }
-        private static List<int> GetRandomSeedsFromPassphrase(string passphrase)
-        {
-            byte[] hashArray = GetHashByteArray(passphrase);
 
-            List<int> randomSeeds = GetInt32SeedsFromByteArray(hashArray);
-
-            return randomSeeds;
-        }
         internal static List<int> GetInt32SeedsFromByteArray(byte[] hashArray)
         {
-            var output = new List<int>();
+            List<int> output = new();
 
             for (int i = 0; i < 32; i += 4)
             {
@@ -41,13 +40,6 @@ namespace Krypt2Library
             }
 
             return output;
-        }
-        private static byte[] GetHashByteArray(string passphrase)
-        {
-            byte[] hash;
-            hash = SHA256.HashData(Encoding.UTF8.GetBytes(passphrase));
-
-            return hash;
         }
     }
 }
