@@ -12,6 +12,7 @@ namespace Krypt2Library
 
             return Shift(message, CryptType.Encryption);
         }
+
         public string Decrypt(string passphrase, string message)
         {
             _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
@@ -23,7 +24,7 @@ namespace Krypt2Library
         private string Shift(string message, CryptType cryptType)
         {
             var output = new StringBuilder();
-            var alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
+            Alphabet alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
 
             PrependAddedCharactersIfEncrypting(cryptType, output, alphabet.AddedCharacters);
 
@@ -31,6 +32,7 @@ namespace Krypt2Library
 
             return output.ToString();
         }
+
         private string ShiftMessage(string message, Alphabet alphabet)
         {
             MessageAsIndexArray messageAsIndexArray = ConvertMessageToIndexArray(message, alphabet);
@@ -39,11 +41,10 @@ namespace Krypt2Library
             {
                 ShiftOnePass(messageAsIndexArray, alphabet, passCount);
             }
-
-            StringBuilder output = ConvertListOfTextElementsToStringBuilder(messageAsIndexArray.MessageAsListOfTextElements);
-
-            return output.ToString();
+            
+            return string.Concat(messageAsIndexArray.MessageAsListOfTextElements);
         }
+
         private void ShiftOnePass(MessageAsIndexArray message, Alphabet alphabet, int passCount)
         {
             for (int i = 0; i < message.IndexArray.Length; i++)
@@ -62,48 +63,21 @@ namespace Krypt2Library
         {
             if (cryptType == CryptType.Encryption)
             {
-                foreach (var item in addedAsList)
-                {
-                    output.Append(item);
-                }
+                output.Append(string.Join("", addedAsList));
             }
         }
+
         private static MessageAsIndexArray ConvertMessageToIndexArray(string message, Alphabet alphabet)
-        {
-            List<string> messageAsList = ConvertMessageToListOfTextElements(message, alphabet.CryptType, alphabet.AddedCharacters.Count);
-
-            MessageAsIndexArray output = new MessageAsIndexArray(messageAsList, alphabet);
-
-            return output;
-        }
-        private static List<string> ConvertMessageToListOfTextElements(string message, CryptType cryptType, int addedCharactersCount)
         {
             List<string> messageAsList = GustoAlphabetManager.StringToListOfObjects(message);
 
-            RemovePrependedCharactersIfDecrypting(cryptType, addedCharactersCount, messageAsList);
-
-            return messageAsList;
-        }
-        private static void RemovePrependedCharactersIfDecrypting(CryptType cryptType, int addedCharactersCount, List<string> messageAsList)
-        {
-            if (cryptType == CryptType.Decryption)
+            if (alphabet.CryptType == CryptType.Decryption)
             {
-                for (int i = 0; i < addedCharactersCount; i++)
-                {
-                    messageAsList.RemoveAt(0);
-                }
-            }
-        }
-
-        private static StringBuilder ConvertListOfTextElementsToStringBuilder(List<object> messageAsList)
-        {
-            var output = new StringBuilder();
-            foreach (var textElement in messageAsList)
-            {
-                output.Append(textElement);
+                messageAsList.RemoveRange(0, alphabet.AddedCharacters.Count);
             }
 
-            return output;
+            return new MessageAsIndexArray(messageAsList, alphabet);
         }
+
     }
 }

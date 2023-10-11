@@ -57,6 +57,7 @@ namespace Krypt2Library
 
             return alphabet;
         }
+
         private static void ExtractAdditionalCharactersFromCipherText(Alphabet alphabet, List<string> messageAsList)
         {
             foreach (string textElement in messageAsList)
@@ -69,6 +70,7 @@ namespace Krypt2Library
                 alphabet.AllCharacters.Add(textElement);
             }
         }
+
         private static void CheckForInvalidCipherText(Alphabet alphabet, List<string> messageAsList)
         {
             // If, after the initial added characters in the CipherText, unknown characters are found, the CipherText is invalid.

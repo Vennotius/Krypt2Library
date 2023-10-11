@@ -15,7 +15,7 @@
 
         public Dictionary<string, int> GetAlphabetIndexDictionary()
         {
-            Dictionary<string, int> output = new();
+            Dictionary<string, int> output = new(AllCharacters.Count);
 
             for (int charIndex = 0; charIndex < AllCharacters.Count; charIndex++)
             {

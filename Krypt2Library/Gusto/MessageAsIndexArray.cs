@@ -5,8 +5,7 @@
         private readonly Alphabet _alphabet;
 
         internal int[] IndexArray { get; init; }
-        internal List<object> MessageAsListOfTextElements
-            => MessageToListOfTextElements(IndexArray, _alphabet);
+        internal List<object> MessageAsListOfTextElements => MessageToListOfTextElements(IndexArray, _alphabet);
 
         public MessageAsIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
@@ -20,7 +19,8 @@
 
             foreach (int item in messageArray)
             {
-                output.Add(alphabet.AllCharacters[WrapperForShift(0, item, alphabet.AllCharacters.Count)]);
+                int index = WrapperForShift(0, item, alphabet.AllCharacters.Count);
+                output.Add(alphabet.AllCharacters[index]);
             }
 
             return output;
@@ -40,13 +40,7 @@
             return output;
         }
 
-        public static int WrapperForShift(int startIndex, int shiftAmount, int length)
-        {
-            int outputIndex = startIndex + (shiftAmount % length);
-
-            if (outputIndex < 0) outputIndex += length;
-
-            return outputIndex;
-        }
+        public static int WrapperForShift(int startIndex, int shiftAmount, int length) 
+            => (startIndex + (shiftAmount % length) + length) % length;
     }
 }
