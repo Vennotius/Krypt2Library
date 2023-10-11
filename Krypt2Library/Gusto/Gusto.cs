@@ -41,15 +41,17 @@ namespace Krypt2Library
             {
                 ShiftOnePass(messageAsIndexArray, alphabet, passCount);
             }
-            
+
             return string.Concat(messageAsIndexArray.MessageAsListOfTextElements);
         }
 
         private void ShiftOnePass(MessageAsIndexArray message, Alphabet alphabet, int passCount)
         {
+            Random random = _randoms[passCount];
+            
             for (int i = 0; i < message.IndexArray.Length; i++)
             {
-                int shiftAmount = _randoms[passCount].Next(alphabet.AllCharacters.Count);
+                int shiftAmount = random.Next(alphabet.AllCharacters.Count);
 
                 // In case of decryption, we need to reverse the shift that happened during encryption.
                 if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
@@ -78,6 +80,5 @@ namespace Krypt2Library
 
             return new MessageAsIndexArray(messageAsList, alphabet);
         }
-
     }
 }

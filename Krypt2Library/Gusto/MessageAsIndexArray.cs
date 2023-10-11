@@ -1,34 +1,42 @@
 ﻿namespace Krypt2Library
 {
-    internal class MessageAsIndexArray
+    internal ref struct MessageAsIndexArray
     {
         private readonly Alphabet _alphabet;
+        private Span<int> _indexArray;
 
-        internal int[] IndexArray { get; init; }
-        internal List<object> MessageAsListOfTextElements => MessageToListOfTextElements(IndexArray, _alphabet);
+        internal Span<int> IndexArray
+        {
+            readonly get => _indexArray;
+            init => _indexArray = value;
+        }
+
+        internal readonly List<object> MessageAsListOfTextElements
+            => MessageToListOfTextElements(_indexArray, _alphabet);
 
         public MessageAsIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
             _alphabet = alphabet;
-            IndexArray = ConvertToIndexArray(messageAsList, _alphabet);
+            _indexArray = ConvertToIndexArray(messageAsList, _alphabet);
         }
 
-        private static List<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
+        private static List<object> MessageToListOfTextElements(Span<int> messageArray, Alphabet alphabet)
         {
             List<object> output = new();
 
-            foreach (int item in messageArray)
+            for (int i = 0; i < messageArray.Length; i++)
             {
-                int index = WrapperForShift(0, item, alphabet.AllCharacters.Count);
+                int index = WrapperForShift(0, messageArray[i], alphabet.AllCharacters.Count);
                 output.Add(alphabet.AllCharacters[index]);
             }
 
             return output;
         }
 
-        private static int[] ConvertToIndexArray(List<string> messageAsList, Alphabet alphabet)
+        private static Span<int> ConvertToIndexArray(List<string> messageAsList, Alphabet alphabet)
         {
-            int[] output = new int[messageAsList.Count];
+            int[] underlyingArray = new int[messageAsList.Count];
+            Span<int> output = new Span<int>(underlyingArray);
 
             Dictionary<string, int> alphabetIndex = alphabet.GetAlphabetIndexDictionary();
 
@@ -40,7 +48,7 @@
             return output;
         }
 
-        public static int WrapperForShift(int startIndex, int shiftAmount, int length) 
+        public static int WrapperForShift(int startIndex, int shiftAmount, int length)
             => (startIndex + (shiftAmount % length) + length) % length;
     }
 }
