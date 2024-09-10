@@ -11,7 +11,7 @@
             init => _indexArray = value;
         }
 
-        internal IEnumerable<object> MessageAsListOfTextElements
+        internal IEnumerable<string> MessageAsListOfTextElements
             => MessageToListOfTextElements(_indexArray, _alphabet);
 
         public MessageAsIndexArray(List<string> messageAsList, Alphabet alphabet)
@@ -20,7 +20,7 @@
             _indexArray = ConvertToIndexArray(messageAsList, _alphabet);
         }
 
-        private static IEnumerable<object> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
+        private static IEnumerable<string> MessageToListOfTextElements(int[] messageArray, Alphabet alphabet)
         {
             for (int i = 0; i < messageArray.Length; i++)
             {

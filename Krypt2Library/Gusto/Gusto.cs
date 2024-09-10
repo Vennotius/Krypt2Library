@@ -28,7 +28,8 @@ namespace Krypt2Library
             var output = new StringBuilder();
             Alphabet alphabet = GustoAlphabetManager.InitializeAlphabet(cryptType, message);
 
-            PrependAddedCharactersIfEncrypting(cryptType, output, alphabet.AddedCharacters);
+            if (cryptType == CryptType.Encryption)
+                output.Append(string.Concat(alphabet.AddedCharacters));
 
             output.Append(ShiftMessage(message, alphabet));
 
@@ -48,23 +49,14 @@ namespace Krypt2Library
                 {
                     int shiftAmount = random.NextInt32(allCharactersCount);
 
-                    // In case of decryption, we need to reverse the shift that happened during encryption.
-                    if (alphabet.CryptType == CryptType.Decryption)
-                        shiftAmount *= -1;
-
-                    messageAsIndexArray.IndexArray[ci] += shiftAmount;
+                    if (alphabet.CryptType == CryptType.Encryption)
+                        messageAsIndexArray.IndexArray[ci] += shiftAmount;
+                    else  // In case of decryption, we need to reverse the shift that happened during encryption.
+                        messageAsIndexArray.IndexArray[ci] -= shiftAmount;
                 }
             }
 
             return string.Concat(messageAsIndexArray.MessageAsListOfTextElements);
-        }
-
-        private static void PrependAddedCharactersIfEncrypting(CryptType cryptType, StringBuilder output, List<string> addedAsList)
-        {
-            if (cryptType == CryptType.Encryption)
-            {
-                output.Append(string.Join("", addedAsList));
-            }
         }
 
         private static MessageAsIndexArray ConvertMessageToIndexArray(string message, Alphabet alphabet)
