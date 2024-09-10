@@ -4,22 +4,24 @@ namespace Krypt2Library
 {
     public class Gusto : ICipher
     {
-        private List<Random> _randoms;
+        private List<IRandom> _randoms;
 
         public string Encrypt(string passphrase, string message)
         {
-            _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Encryption);
+            // Normalize line endings
+            string normalizedMessage = message.Replace(Environment.NewLine, "\n");
+            _randoms = RandomsFactory.GetRandomsFromPassphrase(passphrase, CryptType.Encryption);
 
-            return Shift(message, CryptType.Encryption);
+            return Shift(normalizedMessage, CryptType.Encryption);
         }
 
         public string Decrypt(string passphrase, string message)
         {
-            _randoms = RandomsFactory.GetRandomsForPassphrase(passphrase, CryptType.Decryption);
+            _randoms = RandomsFactory.GetRandomsFromPassphrase(passphrase, CryptType.Decryption);
 
-            return Shift(message, CryptType.Decryption);
+            // Convert back to the appropriate line ending for the platform
+            return Shift(message, CryptType.Decryption).Replace("\n", Environment.NewLine);
         }
-
 
         private string Shift(string message, CryptType cryptType)
         {
@@ -36,30 +38,26 @@ namespace Krypt2Library
         private string ShiftMessage(string message, Alphabet alphabet)
         {
             MessageAsIndexArray messageAsIndexArray = ConvertMessageToIndexArray(message, alphabet);
+            int allCharactersCount = alphabet.AllCharacters.Count;
 
-            for (int passCount = 0; passCount < _randoms.Count; passCount++)
+            for (int ri = 0; ri < _randoms.Count; ri++)
             {
-                ShiftOnePass(messageAsIndexArray, alphabet, passCount);
+                IRandom random = _randoms[ri];
+
+                for (int ci = ri; ci < messageAsIndexArray.IndexArray.Length; ci += _randoms.Count)
+                {
+                    int shiftAmount = random.Next(allCharactersCount);
+
+                    // In case of decryption, we need to reverse the shift that happened during encryption.
+                    if (alphabet.CryptType == CryptType.Decryption)
+                        shiftAmount *= -1;
+
+                    messageAsIndexArray.IndexArray[ci] += shiftAmount;
+                }
             }
 
             return string.Concat(messageAsIndexArray.MessageAsListOfTextElements);
         }
-
-        private void ShiftOnePass(MessageAsIndexArray message, Alphabet alphabet, int passCount)
-        {
-            Random random = _randoms[passCount];
-            
-            for (int i = 0; i < message.IndexArray.Length; i++)
-            {
-                int shiftAmount = random.Next(alphabet.AllCharacters.Count);
-
-                // In case of decryption, we need to reverse the shift that happened during encryption.
-                if (alphabet.CryptType == CryptType.Decryption) shiftAmount *= -1;
-
-                message.IndexArray[i] += shiftAmount;
-            }
-        }
-
 
         private static void PrependAddedCharactersIfEncrypting(CryptType cryptType, StringBuilder output, List<string> addedAsList)
         {

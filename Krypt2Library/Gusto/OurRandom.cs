@@ -115,4 +115,54 @@
             return retVal;
         }
     }
+
+    public class Xoshiro256SS : IRandom
+    {
+        private ulong[] _state = new ulong[4];
+
+        public Xoshiro256SS(ulong[] seed)
+        {
+            if (seed.Length != 4)
+                throw new ArgumentException("Seed must contain exactly 4 elements.");
+
+            Array.Copy(seed, _state, 4);
+        }
+
+        private ulong RotateLeft(ulong x, int k) 
+            => (x << k) | (x >> (64 - k));
+
+        private ulong NextBase()
+        {
+            ulong result = RotateLeft(_state[1] * 5, 7) * 9;
+
+            ulong t = _state[1] << 17;
+
+            _state[2] ^= _state[0];
+            _state[3] ^= _state[1];
+            _state[1] ^= _state[2];
+            _state[0] ^= _state[3];
+
+            _state[2] ^= t;
+            _state[3] = RotateLeft(_state[3], 45);
+
+            return result;
+        }
+
+        public int Next() 
+            => (int)(NextBase() & 0xFFFFFFFF);
+
+        public int Next(int maxValue)
+        {
+            if (maxValue <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxValue), "maxValue must be greater than 0.");
+
+            int result;
+            do
+            {
+                result = Next();
+            } while (result == int.MinValue);  // Handle int.MinValue case directly
+
+            return Math.Abs(result) % maxValue;
+        }
+    }
 }

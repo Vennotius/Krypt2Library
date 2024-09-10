@@ -11,7 +11,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void GetRandomsForPassphraseTest()
         {
-            List<Random> randomsList = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
 
             Assert.AreEqual(8, randomsList.Count);
 
@@ -24,21 +24,21 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void GetRandomsForPassphraseRepeatabilityTest()
         {
-            List<Random> randomsList1 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
-            List<Random> randomsList2 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList1 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList2 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
             CompareRandomsLists(randomsList1, randomsList2);
 
-            List<Random> randomsList3 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
-            List<Random> randomsList4 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList3 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList4 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Decryption);
             CompareRandomsLists(randomsList3, randomsList4);
 
-            List<Random> randomsList5 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
-            List<Random> randomsList6 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList5 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList6 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Decryption);
             randomsList6.Reverse();
             CompareRandomsLists(randomsList5, randomsList6);
 
-            List<Random> randomsList7 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Decryption);
-            List<Random> randomsList8 = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList7 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Decryption);
+            List<Random> randomsList8 = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
             randomsList8.Reverse();
             CompareRandomsLists(randomsList7, randomsList8);
         }
@@ -61,7 +61,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void RandomsAreIndeedDifferentTest(int a, int b, int c)
         {
-            List<Random> randomsList = RandomsFactory.GetRandomsForPassphrase("test", CryptType.Encryption);
+            List<Random> randomsList = RandomsFactory.GetRandomsFromPassphrase("test", CryptType.Encryption);
             CompareThree(randomsList, a, b, c);
         }
 
