@@ -41,7 +41,7 @@
             return output;
         }
 
-        private static int WrapperForShift(int startIndex, int shiftAmount, int length)
+        internal static int WrapperForShift(int startIndex, int shiftAmount, int length)
             => (startIndex + shiftAmount % length + length) % length;
     }
 }

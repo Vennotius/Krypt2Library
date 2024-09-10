@@ -10,7 +10,7 @@ namespace Krypt2Library.Tests
 
         [DataRow("Hallo", "")]
         [DataRow("Reën! Dagsê.", "êë")]
-        [DataRow("👩🏽‍🚒 Testing some Grapheme clusters. á  á", "👩🏽‍🚒á")]
+        [DataRow("áê Testing NOT some Grapheme clusters, but normal diacritics. á ê á", "áê")]
         [TestMethod()]
         public void InitializeAlphabetForEncryptionTest(string message, string expectedAdded)
         {
@@ -35,7 +35,7 @@ namespace Krypt2Library.Tests
 
         [DataRow("Hallo", "")]
         [DataRow("êêDagsê", "ê")]
-        [DataRow("👩🏽‍🚒á Testing some Grapheme clusters. á  á", "👩🏽‍🚒á")]
+        [DataRow("áê Testing NOT some Grapheme clusters, but normal diacritics. á ê á", "áê")]
         [TestMethod()]
         public void InitializeAlphabetForDecryptionTest(string cipherText, string expectedAdded)
         {
@@ -61,7 +61,7 @@ namespace Krypt2Library.Tests
         [TestMethod()]
         public void StringToListOfObjectsTest()
         {
-            var input = "abcde👩🏽‍🚒";
+            var input = "abcdeêç";
 
             var expected = new List<object>()
             {
@@ -70,7 +70,8 @@ namespace Krypt2Library.Tests
                 "c",
                 "d",
                 "e",
-                "👩🏽‍🚒"
+                "ê",
+                "ç"
             };
 
             List<string> test = GustoAlphabetManager.StringToListOfObjects(input);

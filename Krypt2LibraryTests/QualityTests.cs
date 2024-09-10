@@ -26,7 +26,7 @@ namespace Krypt2Library.Tests
             // But if it compresses worse than a pseudorandom string, this means that there is some information to be gleaned form the cipher text.
             // This tests is our cipherText compresses at least as badly as a pseudorandom string does. (with a 1% tolerance.)
 
-            var kryptor = new Kryptor(new Gusto());
+            var kryptor = new Kryptor<Gusto>();
 
             var encrypted = kryptor.Encrypt("compressionTest", message);
             var randomstring = GenerateRandomString(message.Length, _standardAlphabet);
