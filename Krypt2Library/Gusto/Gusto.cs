@@ -46,7 +46,7 @@ namespace Krypt2Library
 
                 for (int ci = ri; ci < messageAsIndexArray.IndexArray.Length; ci += _randoms.Count)
                 {
-                    int shiftAmount = random.Next(allCharactersCount);
+                    int shiftAmount = random.NextInt32(allCharactersCount);
 
                     // In case of decryption, we need to reverse the shift that happened during encryption.
                     if (alphabet.CryptType == CryptType.Decryption)

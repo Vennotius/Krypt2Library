@@ -12,9 +12,9 @@ namespace Krypt2Library
             // Use Hash Array to extract seeds for created Randoms
             {
                 byte[] hashArray = SHA512.HashData(Encoding.UTF8.GetBytes(passphrase)); // 64 bytes
-                var seeds = GetInt32SeedsFromByteArray(hashArray).ToArray(); // 4 seeds
+                var seeds = GetInt32SeedsFromByteArray(hashArray); // 4 seeds
 
-                output.Add(new Xoshiro256SS(seeds));
+                output.Add(new Xoshiro256SS(seeds[0], seeds[1], seeds[2], seeds[3]));
             }
 
             return output;

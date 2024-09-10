@@ -2,7 +2,7 @@
 {
     public interface IRandom
     {
-        int Next();
-        int Next(int maxValue);
+        int NextInt32();
+        int NextInt32(int maxValue);
     }
 }
