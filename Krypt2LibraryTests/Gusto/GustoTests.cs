@@ -18,6 +18,7 @@ namespace Krypt2Library.Tests
             var cipherText = gusto.Encrypt(passphrase, message);
 
             Assert.AreEqual(expectedCipherText, cipherText);
+#warning I know these are broken. Having some trouble hitting breakpoints, so will do it later.
         }
 
 

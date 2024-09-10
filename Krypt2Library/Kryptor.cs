@@ -3,13 +3,13 @@
 [assembly: InternalsVisibleTo("Krypt2LibraryTests")]
 namespace Krypt2Library
 {
-    public class Kryptor
+    public class Kryptor<T> where T : ICipher, new()
     {
         public ICipher Cipher { get; init; }
 
-        public Kryptor(ICipher cipher)
+        public Kryptor()
         {
-            Cipher = cipher;
+            Cipher = new T();
         }
 
         public string Encrypt(string passphrase, string message)

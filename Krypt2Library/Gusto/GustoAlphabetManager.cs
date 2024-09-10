@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 
 namespace Krypt2Library
 {
@@ -84,7 +85,23 @@ namespace Krypt2Library
         }
 
 
-        internal static List<string> StringToListOfObjects(string input)
+        internal static List<string> StringToListOfObjects(ReadOnlySpan<char> input)
+        {
+            List<string> output = new();
+            int i = 0;
+
+            while (i < input.Length)
+            {
+                Rune.DecodeFromUtf16(input.Slice(i), out Rune rune, out int charsConsumed);
+                output.Add(rune.ToString());
+                i += charsConsumed;
+            }
+
+            return output;
+        }
+
+        [Obsolete("Keeping this for reference in case the new one is found to not work")]
+        internal static List<string> StringToListOfObjects_original(string input)
         {
             List<string> output = new();
 

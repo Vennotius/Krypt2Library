@@ -5,41 +5,47 @@ namespace Krypt2Library
 {
     internal static class RandomsFactory
     {
-        internal static List<Random> GetRandomsForPassphrase(string passphrase, CryptType cryptType)
+        internal static List<IRandom> GetRandomsFromPassphrase(string passphrase, CryptType cryptType)
         {
-            List<Random> output = new();
+            List<IRandom> output = new();
 
             // Use Hash Array to extract seeds for created Randoms
             {
-                byte[] hashArray = SHA256.HashData(Encoding.UTF8.GetBytes(passphrase));
-                List<int> seeds = GetInt32SeedsFromByteArray(hashArray);
+                byte[] hashArray = SHA512.HashData(Encoding.UTF8.GetBytes(passphrase)); // 64 bytes
+                var seeds = GetInt32SeedsFromByteArray(hashArray); // 4 seeds
 
-                foreach (int seed in seeds)
-                {
-                    output.Add(new OurRandom(seed));
-                }
+                output.Add(new Xoshiro256SS(seeds[0], seeds[1], seeds[2], seeds[3]));
             }
-
-            if (cryptType == CryptType.Decryption) output.Reverse();
 
             return output;
         }
 
-        internal static List<int> GetInt32SeedsFromByteArray(byte[] hashArray)
+        internal static List<ulong> GetInt32SeedsFromByteArray(byte[] hashArray)
         {
-            List<int> output = new();
-
-            for (int i = 0; i < 32; i += 4)
+            if (hashArray.Length < 32)
             {
-                int seed = hashArray[i] +
-                          (hashArray[i + 1] << 8) +
-                          (hashArray[i + 2] << 16) +
-                          (hashArray[i + 3] << 24);
+                throw new ArgumentException("Byte array must be at least 32 bytes long.");
+            }
+
+            List<ulong> output = new();
+
+            // Loop to extract 4 ulong seeds from 32-byte array
+            for (int i = 0; i < 32; i += 8)
+            {
+                ulong seed = (ulong)hashArray[i] |
+                             ((ulong)hashArray[i + 1] << 8) |
+                             ((ulong)hashArray[i + 2] << 16) |
+                             ((ulong)hashArray[i + 3] << 24) |
+                             ((ulong)hashArray[i + 4] << 32) |
+                             ((ulong)hashArray[i + 5] << 40) |
+                             ((ulong)hashArray[i + 6] << 48) |
+                             ((ulong)hashArray[i + 7] << 56);
 
                 output.Add(seed);
             }
 
             return output;
         }
+
     }
 }
