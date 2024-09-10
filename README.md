@@ -1,5 +1,5 @@
 # Krypt2Library
-A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from which 8 seeded Random's are generated. These, each in its own pass, are used to deterministically calculate the final shift value of each character in sequence.
+A Polyalphabetic Cipher which uses a passphrase to generate a SHA512 hash from which a Xoshiro PNRG is seeded. This used to deterministically calculate the shift value of each character in sequence.
 
 # General Information
 
