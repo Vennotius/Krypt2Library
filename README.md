@@ -1,23 +1,15 @@
 # Krypt2Library
-A Polyalphabetic Cipher which uses a passphrase to generate a SHA256 hash from which 8 seeded Random's are generated. These, each in its own pass, are used to deterministically calculate the final shift value of each character in sequence.
+A Polyalphabetic Cipher which uses a passphrase to generate a SHA512 hash from which a Xoshiro PNRG is seeded. This used to deterministically calculate the shift value of each character in sequence.
 
 # General Information
-
-## Use of TextElements instead of Characters
-
-Certain Unicode characters are composed of more than one character. Because of this, if one iterates through characters, swapping them as one goes, one could end up splitting up characters which then causes problems when saving result to file for example. Therefore, this cipher iterates on TextElements instead.
-
-See https://docs.microsoft.com/en-us/dotnet/api/system.string?view=net-6.0#strings-and-indexes for more information. 
 
 ## Alphabet Extension
 
 A standard alphabet is used. When encrypting a plaintext message, if characters are discovered that are not contained in the standard alphabet, they are added to it. Those characters are then sorted and prepended to the resulting CipherText. On decryption they can be read and the alphabet that was used for encryption is thereby reconstructed.
 
-## Use of SHA & Randoms
+## Use of SHA and a Pseudo Random Number Generator
 
-Using a passphrase to determine the shift amount of each character was considered, but the main problems are firstly that the shift values will repeat because the passphrase is likely to be much shorter than the message, and secondly that a partially correct passphrase of the correct length could yield partial decryption. For this reason Random.cs is used. A seeded Random can extend indefinitely and is deterministinc, meaning that one can reproduce the exact pseudo-random sequence using the same seed. The seed used for Random.cs is an Int32. This means that a SHA256 hash can be used to construct 8x Int32 seeds. One tiny change to the passphrase and the seeds change drastically.
-
-Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit hash yields hash collisions much too often. Using 8 randoms, means taking advantage of the full hash, and every random contributes to each character's final shift amount.
+Using a passphrase to determine the shift amount of each character was considered, but the main problems are firstly that the shift values will repeat because the passphrase is likely to be much shorter than the message, and secondly that a partially correct passphrase of the correct length could yield partial decryption. For this reason a PRNG is used. A seeded PRNG can extend indefinitely and is deterministinc, meaning that one can reproduce the exact pseudo-random sequence using the same seed. We hash the passphrase using SHA512, using the result as a seed for a Xoshiro PRNG. One tiny change to the passphrase and the seed changes drastically, meaning a completely different sequence of shift amounts.
 
 # Examples
 
@@ -29,12 +21,12 @@ Why 8x randoms instead of just one? Because using just 32bits out of the 256 bit
 
 **CipherText** *with passphrase "password"*:  
 ```
-$m*pe4M ty ,QU1fTfBu*8Y8)hR!QNdSo;S2s-W )%$j)@hGZXb,#!Q?A1)&jVleRVF6ztBGes&$(..iris6ZeKZL.38D0h$"#UVSF8.zSR"5W$8!LL)t?.EsQRVx?(JsypOD**t+0+'1;3V@dd .:5mR#xn;pW!hMQWPqU775E?N42dz1.p+HQFbdj5Q(mjo Ntys9,pVyg+:$"SNZWJKO#hf-z+eEW"wW;H,Slf.R!MM51H.nxA7C$p1D$XC)#1DQ90bN0*A66l#D
+RN&w8RInWfV4#pTC5xD6TCe?JLo%J)9GV-GnTB!sC%7VlowNj7IF%DBa2a8T;2yb48IoUcbi&%UyGj%7QRjS0oppWb($eu; .X04 U$%;klUi&FeBBIx(*WdRD8rfVH+4:aiTkyQBlI+7JsQMevD%ah8x-Cx6j1u'j"n;,3h#AkUEdOlKI7Ql6iH H;q7ypG1G1?(GJ4*GBZQ@xBcCYpM GToGst U:*&A83&Xbu7"zh1$V;?baS$Q3Q4GP3SaLTJSw7hyY 6jysO-Y
 ```
 
 **CipherText** *with passphrase "Password"*:  
 ```
-g@nR$&)634$7c,NI.#WOKrk@)d:@5fM?duIBfS6)aGkgdLVNSuqX$82QS6u@d$(#OPP'0F'g9Dj*nB S2DItd36W5*mQW"z4RvW?-9QRKe01L4EI$E&RHbt5@0I5&WC*n2PK#8#yIeE5pu(70?9fLHyZFV:QD,4qmeN-v24c3mRSAwPzsDmibXE  #oV8P7&O.zo -ki'*1yC8TjH8eD30"..Y1pCzM(6Xb2l2DyH( Oyj4T1UrtTTce(ZU:7).B+J(,i:eYHWl!jVH
+ZEt3(:6bpUDW,F m.1)ntN1sR8Vko7cWn8;YmjvEta;J.!$Z3,(Lr"M7%IQR'xOxMUN1x?Hne1LUy:(4XKy!sIJ51V'Q&DfdJRA!-j1pR6OWibtYArZ%FR7otdtIG1f#tUo5R  !$)5ehQB+a#bbZwm"EHV8A'Wvpn(bG#x$7-:aGrW.9uhBJ,y32vTB)z!7KoIhN1UZd!YVoBX0gT!+&h9lX75'+W* qyj$@Gw8Ulk3jT32""+e3,!SoJD&vX2uLlcT3$Wl!vSpOZ;
 ```
 
 ## Repeating Character:  
@@ -45,12 +37,12 @@ g@nR$&)634$7c,NI.#WOKrk@)d:@5fM?duIBfS6)aGkgdLVNSuqX$82QS6u@d$(#OPP'0F'g9Dj*nB S
 
 **CipherText** *with passphrase "password"*:  
 ```
-Ef#+aZyTpREYN?UfByum)1NKkdu!Fu-PH.KQL-J7k$()17!CW''Zm7I1TI?@CIl@N!mZzaUy"L&#5Q7Bn'oPBxxZz7
++G@f4Mu&SypQ(IMCNQwYNv#P2H)%y15D!@yb,B1pV$3D@aaJg*usowt:@ 1PiPy;0+phU,ua7oUxs:)*MwfBCHcpK*
 ```
 
 **CipherText** *with passphrase "Password"*:  
 ```
-Q!jA()6PZ$RT-cGITmPGEk-Xk-U@U"I wnApyST:tFg:?xzJPNcKn1UE.Nn:w ( K8w90mg+RWj&-g6.YiEc8#TWT#
+gxpM",S?l?*I9Y3mT)?fnGQ$ 4ykdO+TG1 MFjiBM-!rS01V0c5yK8EVopJNgkOlI?uUxU0f")LTkW"$TpuX$1w5PR
 ```
 
 
